@@ -1,8 +1,10 @@
 sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/m/MessageBox",
 	"./utilities",
-	"sap/ui/core/routing/History"
-], function (BaseController, MessageBox, Utilities, History) {
+	"sap/ui/core/routing/History",
+	"sap/ui/model/json/JSONModel",
+	"../model/models"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page7", {
@@ -13,7 +15,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 			if (oEvent.mParameters.data.context) {
 				this.sContext = oEvent.mParameters.data.context;
-
+				this.getView().byId("page7").setTitle(oEvent.mParameters.data.category);
 			} else {
 				if (this.getOwnerComponent().getComponentData()) {
 					var patternConvert = function (oParam) {
@@ -47,7 +49,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var oBindingContext = oEvent.getParameter("listItem").getBindingContext();
 
 			return new Promise(function (fnResolve) {
-				this.doNavigate("Page8", oBindingContext, fnResolve, "");
+				this.doNavigate("PageIndoorMap", oBindingContext, fnResolve, "");
 			}.bind(this)).catch(function (err) {
 				if (err !== undefined) {
 					MessageBox.error(err.message);
@@ -136,6 +138,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("Page7").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
+			this.getView().setModel(Models.createLocationModel());
 
 		}
 	});

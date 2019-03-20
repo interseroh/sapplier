@@ -1,11 +1,13 @@
 sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/m/MessageBox",
 	"./utilities",
-	"sap/ui/core/routing/History"
-], function (BaseController, MessageBox, Utilities, History) {
+	"sap/ui/core/routing/History",
+	"sap/ui/model/json/JSONModel",
+	"../model/models"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models) {
 	"use strict";
 
-	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page8", {
+	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
 		handleRouteMatched: function (oEvent) {
 			var sAppId = "App5c90f29e06f87f01158d7743";
 
@@ -13,7 +15,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 			if (oEvent.mParameters.data.context) {
 				this.sContext = oEvent.mParameters.data.context;
-
 			} else {
 				if (this.getOwnerComponent().getComponentData()) {
 					var patternConvert = function (oParam) {
@@ -42,6 +43,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			}
 
 		},
+		onInit: function () {
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			this.oRouter.getTarget("PageIndoorMap").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
+		},
+
 		_onButtonPress: function () {
 			var oHistory = History.getInstance();
 			var sPreviousHash = oHistory.getPreviousHash();
@@ -53,8 +59,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				oRouter.navTo("default", true);
 			}
-
 		},
+
 		getQueryParameters: function (oLocation) {
 			var oQuery = {};
 			var aParams = oLocation.search.substring(1).split("&");
@@ -65,10 +71,5 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			return oQuery;
 
 		},
-		onInit: function () {
-			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this.oRouter.getTarget("Page8").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
-
-		}
 	});
-}, /* bExport= */ true);
+});
