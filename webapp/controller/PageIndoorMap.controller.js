@@ -3,8 +3,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"./utilities",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/json/JSONModel",
-	"../model/models"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models) {
+	"../model/models",
+	"./ble"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
@@ -52,12 +53,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var image=$("img[name='lageplan-img']")[0];
 			image.onload=function(){
 			    var canvas=$("canvas[name='lageplan-canvas']")[0];
-	            canvas.hight=100;
-	            canvas.width=200;
+	            canvas.height=image.height;
+	            canvas.width=image.width;
 	            var ctx=canvas.getContext("2d");
-	            ctx.scale(2, 2);
-	            ctx.drawImage(image, 0,0, 100, 200);
-	            image.style.visibility = 'hidden';
+	            ctx.drawImage(image, 0, 0, canvas.width, image.height);
+	            $("img[name='lageplan-img']").remove();
 			};
             
 		},
@@ -68,12 +68,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var oHistory = History.getInstance();
 			var sPreviousHash = oHistory.getPreviousHash();
 			var oQueryParams = this.getQueryParameters(window.location);
-
+			BLE.stop();
 			if (sPreviousHash !== undefined || oQueryParams.navBackToLaunchpad) {
 				window.history.go(-1);
 			} else {
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-				oRouter.navTo("default", true);
+				oRouter.navTo("Page6", true);
 			}
 		},
 

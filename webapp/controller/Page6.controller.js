@@ -5,8 +5,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"../model/models",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, Filter, FilterOperator) {
+	"sap/ui/model/FilterOperator",
+	"./ble"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, Filter, FilterOperator, BLE) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page6", {
@@ -107,7 +108,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 					}.bind(this));
 				}
 			} else {
-				this.oRouter.navTo(sRouteName);
+				this.oRouter.navTo(sRouteName, {
+					category: sCategory
+				}, false);
 			}
 
 			if (typeof fnPromiseResolve === "function") {
@@ -119,6 +122,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("Page6").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
 			this.getView().setModel(Models.createCategoryModel());
+			BLE.initialize();
 		},
 		onExit: function () {
 

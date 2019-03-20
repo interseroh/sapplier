@@ -3,8 +3,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"./utilities",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/json/JSONModel",
-	"../model/models"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models) {
+	"../model/models",
+	"./ble"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, ble) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page7", {
@@ -50,6 +51,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 			return new Promise(function (fnResolve) {
 				this.doNavigate("PageIndoorMap", oBindingContext, fnResolve, "");
+				BLE.start();
 			}.bind(this)).catch(function (err) {
 				if (err !== undefined) {
 					MessageBox.error(err.message);
@@ -139,7 +141,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("Page7").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
 			this.getView().setModel(Models.createLocationModel());
+			this.oRouter.getRoute("Page7").attachPatternMatched(this._onObjectMatched, this);
 
-		}
+		},
+		
+		_onObjectMatched: function(oEvent) {
+			var sCategoryName = oEvent.getParameter("arguments").category;
+			this.getView().byId("page7").setTitle(sCategoryName);
+		},
+		
 	});
 }, /* bExport= */ true);
