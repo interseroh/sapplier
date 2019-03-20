@@ -1,0 +1,11 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" controllerName="com.sap.build.standard.supplierNavigator.controller.IndoorMap" xmlns:html="http://www.w3.org/1999/xhtml">
+	<App xmlns="sap.m">
+		<pages>
+			<Page title="Lagerplan Potsdamer Platz unterirdisch">
+				<content>
+        				<Image id="image0" width="100%" alt="Keine SVG Unterstützung" src="resources/appHausKarte.svg" />
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
