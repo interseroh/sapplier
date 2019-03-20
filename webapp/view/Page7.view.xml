@@ -1,0 +1,56 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.Page7" xmlns="sap.m"
+	xmlns:layout="sap.ui.commons.layout">
+	<Page showHeader="false" title="Page Title" showFooter="false" showNavButton="false" enableScrolling="false">
+		<content>
+			<layout:AbsoluteLayout horizontalScrolling="Hidden" verticalScrolling="Auto">
+				<layout:positions>
+					<layout:PositionContainer left="1px" top="61px">
+						<layout:control>
+							<List mode="SingleSelectMaster" width="100%" headerText="Header" footerText="" backgroundDesign="Solid" showSeparators="All" growing="true"
+								growingThreshold="20" growingScrollToLoad="true" visible="true" itemPress="_onStandardListItemPress">
+								<infoToolbar>
+									<Toolbar width="100%" height="auto" design="Auto" visible="false" enabled="true">
+										<content>
+											<Label text="Label" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+										</content>
+									</Toolbar>
+								</infoToolbar>
+								<headerToolbar>
+									<Toolbar enabled="true" visible="true" width="" design="Solid">
+										<content>
+											<SearchField placeholder="Search" showSearchButton="true" visible="true" width="100%"/>
+										</content>
+									</Toolbar>
+								</headerToolbar>
+								<items>
+									<StandardListItem title="Title 1" description="" info="" infoState="None" type="Navigation" selected="false" visible="true"/>
+									<StandardListItem title="Title 2" description="" info="" infoState="None" type="Navigation" selected="false" visible="true"/>
+									<StandardListItem title="Title 3" description="" info="" infoState="None" type="Navigation" selected="true" visible="true"/>
+									<StandardListItem title="Title" description="" info="" infoState="None" type="Navigation" selected="false" visible="true"/>
+								</items>
+							</List>
+						</layout:control>
+					</layout:PositionContainer>
+					<layout:PositionContainer left="7px" top="2px">
+						<layout:control>
+							<Button text="" type="Default" icon="sap-icon://nav-back" iconFirst="true" width="auto" enabled="true" visible="true"
+								iconDensityAware="false" press="_onButtonPress"/>
+						</layout:control>
+					</layout:PositionContainer>
+				</layout:positions>
+			</layout:AbsoluteLayout>
+		</content>
+		<footer>
+			<OverflowToolbar width="100%" height="46px" design="Auto" enabled="true" visible="true">
+				<content>
+					<ToolbarSpacer width=""/>
+					<Button text="Save" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false"/>
+					<Button text="Cancel" type="Default" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false"/>
+				</content>
+			</OverflowToolbar>
+		</footer>
+		<headerContent/>
+		<subHeader/>
+		<customHeader/>
+	</Page>
+</mvc:View>
