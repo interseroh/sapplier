@@ -50,9 +50,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var oBindingContext = oEvent.getParameter("listItem").getBindingContext();
 
 			return new Promise(function (fnResolve) {
-				if (!sap.ui.Device.system.desktop) {
-					BLE.start();
-				}
 				this.doNavigate("PageIndoorMap", oBindingContext, fnResolve, "");
 			}.bind(this)).catch(function (err) {
 				if (err !== undefined) {

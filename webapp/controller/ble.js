@@ -6,7 +6,9 @@ sap.ui.define([
 
 	// History of enter/exit events.
 	var mRegionEvents = [];
-
+	
+	var oModel;
+	
 	// Nearest ranged beacon.
 	var mNearestBeacon = null;
 
@@ -172,9 +174,13 @@ sap.ui.define([
 			DISTANCE: mNearestBeacon.accuracy,
 		};
 
-		var beacon = mBeacons.filter(function (e) {
-			return e.major = mNearestBeacon.major && e.minor == mNearestBeacon.minor;
+		var beacon = mBeacons.find(function (e) {
+			var major = e.major == mNearestBeacon.major;
+			var minor = e.minor == mNearestBeacon.minor;
+			return (major && minor);
 		});
+		
+		oModel.setProperty("/currentBeacon", `ID: ${beacon.id} MAJOR: ${beacon.major} MINOR: ${beacon.minor}`);
 	};
 
 	function displayRecentRegionEvent() {
@@ -244,10 +250,11 @@ sap.ui.define([
 			document.addEventListener('resume', onAppToForeground, false);
 		},
 
-		start: function () {
+		start: function (model) {
 			mBeacons = Models.createBeaconsModel().getData().beaconsSet;
 			startRanging();
 			startNearestBeaconDisplayTimer();
+			oModel = model;
 		},
 
 		stop: function () {

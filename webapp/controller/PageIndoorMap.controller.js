@@ -9,60 +9,26 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
-		handleRouteMatched: function (oEvent) {
-			var sAppId = "App5c90f29e06f87f01158d7743";
 
-			var oParams = {};
-
-			if (oEvent.mParameters.data.context) {
-				this.sContext = oEvent.mParameters.data.context;
-			} else {
-				if (this.getOwnerComponent().getComponentData()) {
-					var patternConvert = function (oParam) {
-						if (Object.keys(oParam).length !== 0) {
-							for (var prop in oParam) {
-								if (prop !== "sourcePrototype") {
-									return prop + "(" + oParam[prop][0] + ")";
-								}
-							}
-						}
-					};
-
-					this.sContext = patternConvert(this.getOwnerComponent().getComponentData().startupParameters);
-
-				}
-			}
-
-			var oPath;
-
-			if (this.sContext) {
-				oPath = {
-					path: "/" + this.sContext,
-					parameters: oParams
-				};
-				this.getView().bindObject(oPath);
-			}
-
-		},
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this.oRouter.getTarget("PageIndoorMap").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
+			this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
+			var model = new JSONModel({currentBeacon: '' });
+			this.getView().setModel(model);
 		},
- 
-		onAfterRendering: function() {
-			var image=$("img[name='lageplan-img']")[0];
-			image.onload=function(){
-			    var canvas=$("canvas[name='lageplan-canvas']")[0];
-	            canvas.height=image.height;
-	            canvas.width=image.width;
-	            var ctx=canvas.getContext("2d");
-	            ctx.drawImage(image, 0, 0, canvas.width, image.height);
-	            $("img[name='lageplan-img']").remove();
+
+		onAfterRendering: function () {
+			var image = $("img[name='lageplan-img']")[0];
+			image.onload = function () {
+				var canvas = $("canvas[name='lageplan-canvas']")[0];
+				canvas.height = image.height;
+				canvas.width = image.width;
+				var ctx = canvas.getContext("2d");
+				ctx.drawImage(image, 0, 0, canvas.width, image.height);
+				$("img[name='lageplan-img']").remove();
 			};
-            
+
 		},
-
-
 
 		_onButtonPress: function () {
 			var oHistory = History.getInstance();
@@ -87,5 +53,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			return oQuery;
 
 		},
+
+		_onObjectMatched: function (oEvent) {
+			if (!sap.ui.Device.system.desktop) {
+				BLE.start(this.getView().getModel());
+			}
+		},
+
 	});
 });
