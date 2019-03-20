@@ -1,6 +1,7 @@
 sap.ui.define([
-	"./ble"
-], function () {
+	"./ble",
+	"../model/models"
+], function (Models) {
 	"use strict";
 
 	// History of enter/exit events.
@@ -99,10 +100,10 @@ sap.ui.define([
 
 	function startRangingBeacon(beacon, errorCallback) {
 		// Create a region object.
-		var identifier = beacon.ID.toString();
-		var uuid = beacon.UUID.toString();
-		var major = parseInt(beacon.MAJOR);
-		var minor = parseInt(beacon.MINOR);
+		var identifier = beacon.id.toString();
+		var uuid = "F7826DA6-4FA2-4E98-8024-BC5B71E0893E";
+		var major = parseInt(beacon.major);
+		var minor = parseInt(beacon.minor);
 		var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
 
 		mRegions.push(beaconRegion);
@@ -248,7 +249,7 @@ sap.ui.define([
 		},
 
 		start: function () {
-			/*mBeacons = modeltblBeacons.getData();*/
+			mBeacons = Models.createBeaconsModel().getData();
 			startRanging();
 			startNearestBeaconDisplayTimer();
 		},

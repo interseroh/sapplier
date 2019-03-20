@@ -5,7 +5,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"../model/models",
 	"./ble"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, ble) {
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page7", {
@@ -50,8 +50,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var oBindingContext = oEvent.getParameter("listItem").getBindingContext();
 
 			return new Promise(function (fnResolve) {
-				this.doNavigate("PageIndoorMap", oBindingContext, fnResolve, "");
 				BLE.start();
+				this.doNavigate("PageIndoorMap", oBindingContext, fnResolve, "");
 			}.bind(this)).catch(function (err) {
 				if (err !== undefined) {
 					MessageBox.error(err.message);
