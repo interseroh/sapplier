@@ -47,22 +47,33 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("PageIndoorMap").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
-		},
- 
-		onAfterRendering: function() {
-			var image=$("img[name='lageplan-img']")[0];
-			image.onload=function(){
-			    var canvas=$("canvas[name='lageplan-canvas']")[0];
-	            canvas.height=image.height;
-	            canvas.width=image.width;
-	            var ctx=canvas.getContext("2d");
-	            ctx.drawImage(image, 0, 0, canvas.width, image.height);
-	            $("img[name='lageplan-img']").remove();
-			};
-            
+
+			this.lastX = 0;
+			this.lastY = 0;
+			this.currentX;
+			this.currentY;
+			this.x;
+			this.y;
+
 		},
 
+		onAfterRendering: function () {
+			var image = $("img[name='lageplan-img']")[0];
+			this.globalImage = image;
+			image.onload = function () {
+				var canvas = $("canvas[name='lageplan-canvas']")[0];
+				this.globalCanvas = canvas;
+				canvas.height = image.height;
+				canvas.width = image.width;
+				var ctx = canvas.getContext("2d");
+				this.globalCtx = ctx;
+				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+				//$("img[name='lageplan-img']").remove();
+				$("img[name='lageplan-img']").css("display", "none");
+				console.log('Bild ersetzt');
+			}.bind(this);
 
+		},
 
 		_onButtonPress: function () {
 			var oHistory = History.getInstance();
@@ -87,5 +98,39 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			return oQuery;
 
 		},
+
+		drawPointOnMap: function (newX, newY) {
+			console.log(`Moving to x:${x}, y:${y}`);
+			if (lastX && lastY) {
+				ctx.clearRect(0, 0, 300, 400);
+			}
+
+			ctx.drawImage(document.getElementById("svg-map"), 0, 0);
+			ctx.fillStyle = "#FF0000";
+			ctx.fillRect(newX, newY, 5, 5);
+		},
+
+		moveToPosition: function () {
+			x = x + ((currentX - lastX) / 10);
+			y = y + (currentY - lastY) / 10;
+
+			drawPointOnMap(x, y);
+
+			if (((x - currentX) * (currentX - lastX) < 0) || (y - currentY) * (currentY - lastY) < 0) {
+				setTimeout(moveToPosition, 50);
+			} else {
+				lastX = currentX;
+				lastY = currentY;
+			}
+		},
+
+		goTo: function (toX, toY) {
+			currentX = toX;
+			currentY = toY;
+			x = lastX;
+			y = lastY;
+			moveToPosition()
+		}
+
 	});
 });
