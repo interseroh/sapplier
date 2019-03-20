@@ -49,7 +49,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var oBindingContext = oEvent.getParameter("listItem").getBindingContext();
 
 			return new Promise(function (fnResolve) {
-				this.doNavigate("Page8", oBindingContext, fnResolve, "");
+				this.doNavigate("IndoorMap", oBindingContext, fnResolve, "");
 			}.bind(this)).catch(function (err) {
 				if (err !== undefined) {
 					MessageBox.error(err.message);

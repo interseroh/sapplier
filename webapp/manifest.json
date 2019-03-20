@@ -94,9 +94,7 @@
 				"clearTarget": false,
 				"controlAggregation": "pages",
 				"bypassed": {
-					"target": [
-						"Page6"
-					]
+					"target": ["Page6"]
 				}
 			},
 			"targets": {
@@ -120,32 +118,28 @@
 					"viewId": "Page8",
 					"viewLevel": 3,
 					"transition": "slide"
+				},
+				"IndoorMap": {
+					"viewType": "XML",
+					"viewName": "IndoorMap"
 				}
 			},
 			"routes": [{
 				"pattern": "Page6/:context:",
 				"name": "Page6",
-				"target": [
-					"Page6"
-				]
+				"target": ["Page6"]
 			}, {
 				"pattern": "",
 				"name": "default",
-				"target": [
-					"Page6"
-				]
+				"target": ["Page6"]
 			}, {
 				"pattern": "Page7/:context:",
 				"name": "Page7",
-				"target": [
-					"Page7"
-				]
+				"target": ["Page7"]
 			}, {
-				"pattern": "Page8/:context:",
-				"name": "Page8",
-				"target": [
-					"Page8"
-				]
+				"pattern": "IndoorMap/:context:",
+				"name": "IndoorMap",
+				"target": ["IndoorMap"]
 			}]
 		}
 	}
