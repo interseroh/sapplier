@@ -19,7 +19,36 @@ sap.ui.define([
 				});
 			oModel.setDefaultBindingMode("OneWay");
 			return oModel;
-		}
+		},
+
+		createCategoryModel: function () {
+
+			var category = {
+				categorySet: [{
+					"ID": "1",
+					"Name": "Shops"
+				}, {
+					"ID": "2",
+					"Name": "Gastronomie"
+				}, {
+					"ID": "3",
+					"Name": "Unterhaltung"
+				}, {
+					"ID": "4",
+					"Name": "Büros & Wohnungen"
+				}, {
+					"ID": "5",
+					"Name": "Hotels"
+				}, {
+					"ID": "6",
+					"Name": "Alle"
+				}]
+			};
+
+			var oModel = new JSONModel(category);
+			return oModel;
+		},
+
 	};
 
 });
