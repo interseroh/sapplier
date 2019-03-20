@@ -1,8 +1,10 @@
 sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/m/MessageBox",
 	"./utilities",
-	"sap/ui/core/routing/History"
-], function (BaseController, MessageBox, Utilities, History) {
+	"sap/ui/core/routing/History",
+	"sap/ui/model/json/JSONModel",
+	"../model/models"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page6", {
@@ -113,7 +115,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("Page6").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
-
+			this.getView().setModel(Models.createCategoryModel());
 		},
 		onExit: function () {
 

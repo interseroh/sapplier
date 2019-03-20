@@ -8,7 +8,7 @@
 						<layout:control>
 							<List mode="SingleSelectMaster" width="100%" headerText="Header" footerText="" backgroundDesign="Solid" showSeparators="All" growing="true"
 								growingThreshold="20" growingScrollToLoad="true" visible="true" itemPress="_onStandardListItemPress"
-								items="{path:'/KategorienSet', templateShareable:true}">
+								items="{path:'/categorySet', templateShareable:true}">  
 								<infoToolbar>
 									<Toolbar width="100%" height="auto" design="Auto" visible="false" enabled="true">
 										<content>
@@ -24,7 +24,7 @@
 									</Toolbar>
 								</headerToolbar>
 								<items>
-									<StandardListItem title="{Name}" description="" info="" infoState="None" type="Navigation" selected="true" visible="true"/>
+									<StandardListItem title="{Name}" description="" info="" infoState="None" type="Navigation" selected="false" visible="true"/>
 								</items>
 							</List>
 						</layout:control>
