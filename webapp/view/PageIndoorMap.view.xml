@@ -3,7 +3,8 @@
 	<Page id="pageIndoorMap" showHeader="true" title="Lageplan Potsdamer Platz unterirdisch" showFooter="false" showNavButton="true"
 		navButtonPress="_onButtonPress" enableScrolling="true">
 		<content>
-			<html:img id="image0" name="lageplan-img" width="100%" alt="Keine SVG Unterstützung" src="resources/appHausKarte.png"/>
+			<Text text="Hier steht der nächste Beacons"></Text>
+			<html:img id="image0" name="lageplan-img" width="100%" alt="Lageplan des Apphauses" src="resources/appHausKarte.png"/>
 			<html:canvas name="lageplan-canvas"/>
 		</content>
 	</Page>

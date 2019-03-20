@@ -172,13 +172,9 @@ sap.ui.define([
 			DISTANCE: mNearestBeacon.accuracy,
 		};
 
-		/*        ModelData.Update(selDialogLocationBLE, ["UUID", "MAJOR", "MINOR"], [data.UUID, data.MAJOR, data.MINOR], data);*/
-
-		// show the last x values
-		/*        if (modelselDialogLocationBLE.getData().length > 1) {
-		            var firstEntry = modelselDialogLocationBLE.getData()[0];
-		            ModelData.Delete(selDialogLocationBLE, ["UUID", "MAJOR", "MINOR"], [firstEntry.UUID, firstEntry.MAJOR, firstEntry.MINOR]);
-		        }*/
+		var beacon = mBeacons.filter(function (e) {
+			return e.major = mNearestBeacon.major && e.minor == mNearestBeacon.minor;
+		});
 	};
 
 	function displayRecentRegionEvent() {
