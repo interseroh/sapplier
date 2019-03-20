@@ -26,19 +26,19 @@ sap.ui.define([
 			var category = {
 				categorySet: [{
 					"ID": "1",
-					"Name": "Shops"
+					"Name": "Personal"
 				}, {
 					"ID": "2",
-					"Name": "Gastronomie"
+					"Name": "Umwelt"
 				}, {
 					"ID": "3",
-					"Name": "Unterhaltung"
+					"Name": "IT"
 				}, {
 					"ID": "4",
-					"Name": "Büros & Wohnungen"
+					"Name": "Energie"
 				}, {
 					"ID": "5",
-					"Name": "Hotels"
+					"Name": "Dienstleistung"
 				}, {
 					"ID": "6",
 					"Name": "Alle"
@@ -46,6 +46,46 @@ sap.ui.define([
 			};
 
 			var oModel = new JSONModel(category);
+			return oModel;
+		},
+
+		createLocationModel: function () {
+
+			var location = {
+				locationSet: [{
+					"ID": "1",
+					"Name": "randstad",
+					"Navigation_Points": [],
+					"Kategorie": "Personal"
+				}, {
+					"ID": "2",
+					"Name": "Interseroh",
+					"Navigation_Points": [],
+					"Kategorie": "Umwelt"
+				}, {
+					"ID": "3",
+					"Name": "Telekom",
+					"Navigation_Points": [],
+					"Kategorie": "IT"
+				}, {
+					"ID": "4",
+					"Name": "Open Grid Europe",
+					"Navigation_Points": [],
+					"Kategorie": "Energie"
+				}, {
+					"ID": "5",
+					"Name": "e-maks",
+					"Navigation_Points": [],
+					"Kategorie": "Dienstleistung"
+				}, {
+					"ID": "6",
+					"Name": "uniper",
+					"Navigation_Points": [],
+					"Kategorie": "Energie"
+				}]
+			};
+
+			var oModel = new JSONModel(location);
 			return oModel;
 		},
 

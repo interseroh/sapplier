@@ -3,8 +3,10 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"./utilities",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/json/JSONModel",
-	"../model/models"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models) {
+	"../model/models",
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, Filter, FilterOperator) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page6", {
@@ -60,7 +62,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		doNavigate: function (sRouteName, oBindingContext, fnPromiseResolve, sViaRelation) {
 			var sPath = (oBindingContext) ? oBindingContext.getPath() : null;
 			var oModel = (oBindingContext) ? oBindingContext.getModel() : null;
-
 			var sEntityNameSet;
 			if (sPath !== null && sPath !== "") {
 				if (sPath.substring(0, 1) === "/") {
@@ -138,6 +139,22 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				}
 			}
 
+		},
+
+		onFilterInvoices: function () {
+
+			// build filter array
+			var aFilter = [];
+			var sQuery = "Name";
+			if (sQuery) {
+				aFilter.push(new Filter("LocationName", FilterOperator.Contains, sQuery));
+			}
+
+			// filter binding
+			var oList = this.getView().byId("locationList");
+			var oBinding = oList.getBinding("items");
+			oBinding.filter(aFilter);
 		}
+
 	});
 }, /* bExport= */ true);
