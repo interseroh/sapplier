@@ -127,7 +127,7 @@
 				"name": "Page6",
 				"target": ["Page6"]
 			}, {
-				"pattern": "Page7/:context:",
+				"pattern": "Page7/{category}",
 				"name": "Page7",
 				"target": ["Page7"]
 			}, {
