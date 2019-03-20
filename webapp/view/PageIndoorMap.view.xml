@@ -1,18 +1,15 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:layout="sap.ui.commons.layout" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cs="sap.suite.ui.commons.statusindicator" controllerName="com.sap.build.standard.supplierNavigator.controller.PageIndoorMap">
-	<Page id="pageIndoorMap" showHeader="true" title="Lageplan Potsdamer Platz unterirdisch" showFooter="false" showNavButton="true" navButtonPress="_onButtonPress" enableScrolling="true">
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:layout="sap.ui.commons.layout" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:cs="sap.suite.ui.commons.statusindicator" controllerName="com.sap.build.standard.supplierNavigator.controller.PageIndoorMap">
+	<Page id="pageIndoorMap" showHeader="true" title="Lageplan Potsdamer Platz unterirdisch" showFooter="false" showNavButton="true"
+		navButtonPress="_onButtonPress" enableScrolling="true">
 		<content>
-<<<<<<< HEAD
-			<Text text="{/currentBeacon}"></Text>
-			<html:img id="image0" name="lageplan-img" width="100%" alt="Lageplan des Apphauses" src="resources/appHausKarte.png"/>
-			<html:canvas name="lageplan-canvas"/>
-=======
 			<FlexBox width="100%" id="box0" justifyContent="Center">
 				<items>
-					<html:img id="image0" name="lageplan-img" alt="Lageplan des Apphauses" src="resources/appHausKarte.svg" />
+					<Text text="{/currentBeacon}"></Text>
+					<html:img id="image0" name="lageplan-img" alt="Lageplan des Apphauses" src="resources/appHausKarte.svg"/>
 					<html:canvas name="lageplan-canvas"></html:canvas>
 				</items>
 			</FlexBox>
->>>>>>> refs/heads/master
 		</content>
 	</Page>
 </mvc:View>
