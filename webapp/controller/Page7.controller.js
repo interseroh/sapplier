@@ -15,7 +15,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 			if (oEvent.mParameters.data.context) {
 				this.sContext = oEvent.mParameters.data.context;
-
+				this.getView().byId("page7").setTitle(oEvent.mParameters.data.category);
 			} else {
 				if (this.getOwnerComponent().getComponentData()) {
 					var patternConvert = function (oParam) {
@@ -49,7 +49,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var oBindingContext = oEvent.getParameter("listItem").getBindingContext();
 
 			return new Promise(function (fnResolve) {
-				this.doNavigate("Page8", oBindingContext, fnResolve, "");
+				this.doNavigate("PageIndoorMap", oBindingContext, fnResolve, "");
 			}.bind(this)).catch(function (err) {
 				if (err !== undefined) {
 					MessageBox.error(err.message);

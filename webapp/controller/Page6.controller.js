@@ -63,6 +63,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var sPath = (oBindingContext) ? oBindingContext.getPath() : null;
 			var oModel = (oBindingContext) ? oBindingContext.getModel() : null;
 			var sEntityNameSet;
+			var sCategory = oBindingContext.getObject().Name;
 			if (sPath !== null && sPath !== "") {
 				if (sPath.substring(0, 1) === "/") {
 					sPath = sPath.substring(1);
@@ -80,7 +81,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				if (sNavigationPropertyName === "") {
 					this.oRouter.navTo(sRouteName, {
 						context: sPath,
-						masterContext: sMasterContext
+						masterContext: sMasterContext,
+						category: sCategory
 					}, false);
 				} else {
 					oModel.createBindingContext(sNavigationPropertyName, oBindingContext, null, function (bindingContext) {

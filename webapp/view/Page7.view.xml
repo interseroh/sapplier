@@ -1,9 +1,9 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.Page7" xmlns="sap.m"
 	xmlns:layout="sap.ui.commons.layout">
-	<Page showHeader="true" title="{}" showFooter="false" showNavButton="true" icon="sap-icon://nav-back"
+	<Page id="page7" showHeader="true" title="" showFooter="false" showNavButton="true"
 		navButtonPress="_onButtonPress" enableScrolling="false">
 		<content>
-			<List mode="SingleSelectMaster" width="100%" headerText="Header" footerText="" backgroundDesign="Solid" showSeparators="All" growing="true"
+			<List id="locationList" mode="SingleSelectMaster" width="100%" headerText="Header" footerText="" backgroundDesign="Solid" showSeparators="All" growing="true"
 				growingThreshold="20" growingScrollToLoad="true" visible="true" itemPress="_onStandardListItemPress"
 				items="{path:'/locationSet', templateShareable:true}">
 				<infoToolbar>
