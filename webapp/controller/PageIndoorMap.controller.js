@@ -47,6 +47,22 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("PageIndoorMap").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
 		},
+ 
+		onAfterRendering: function() {
+			var image=$("img[name='lageplan-img']")[0];
+			image.onload=function(){
+			    var canvas=$("canvas[name='lageplan-canvas']")[0];
+	            canvas.hight=100;
+	            canvas.width=200;
+	            var ctx=canvas.getContext("2d");
+	            ctx.scale(2, 2);
+	            ctx.drawImage(image, 0,0, 100, 200);
+	            image.style.visibility = 'hidden';
+			};
+            
+		},
+
+
 
 		_onButtonPress: function () {
 			var oHistory = History.getInstance();
