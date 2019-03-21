@@ -24,7 +24,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		// console.log(ctx);
 		// console.log(`Moving to x:${gx}, y:${gy}`);
 		if (lastX && lastY) {
-			globalCtx.clearRect(0, 0, 300, 400);
+			ctx.clearRect(0, 0, 300, 400);
 		}
 
 		ctx.drawImage(globalImage, 0, 0, canvas.width, canvas.height);
