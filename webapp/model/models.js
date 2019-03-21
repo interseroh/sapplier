@@ -56,32 +56,39 @@ sap.ui.define([
 					"ID": "1",
 					"Name": "randstad",
 					"Navigation_Points": [],
-					"Kategorie": "Personal"
+					"Kategorie": "Personal",
+					"Logo": "randstad.png"
 				}, {
 					"ID": "2",
 					"Name": "Interseroh",
 					"Navigation_Points": [],
-					"Kategorie": "Umwelt"
+					"Kategorie": "Umwelt",
+					"Logo": "interseroh.png"
+
 				}, {
 					"ID": "3",
 					"Name": "Telekom",
 					"Navigation_Points": [],
-					"Kategorie": "IT"
+					"Kategorie": "IT",
+					"Logo": "telekom.png",
 				}, {
 					"ID": "4",
 					"Name": "Open Grid Europe",
 					"Navigation_Points": [],
-					"Kategorie": "Energie"
+					"Kategorie": "Energie",
+					"Logo": "openGrid.png"
 				}, {
 					"ID": "5",
 					"Name": "e-maks",
 					"Navigation_Points": [],
-					"Kategorie": "Dienstleistung"
+					"Kategorie": "Dienstleistung",
+					"Logo": "eMaks.png"
 				}, {
 					"ID": "6",
 					"Name": "uniper",
 					"Navigation_Points": [],
-					"Kategorie": "Energie"
+					"Kategorie": "Energie",
+					"Logo": "uniPer.png"
 				}]
 			};
 

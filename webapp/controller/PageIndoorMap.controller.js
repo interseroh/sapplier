@@ -4,8 +4,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/json/JSONModel",
 	"../model/models",
-	"./ble"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE) {
+	"./ble",
+	"../model/Ziele"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE, Ziele) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
@@ -13,10 +14,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
-			var model = new JSONModel({currentBeacon: '' });
+			var model = new JSONModel({
+				currentBeacon: ''
+			});
 			this.getView().setModel(model);
-            
-            this.lastX = 0;
+
+			this.lastX = 0;
 			this.lastY = 0;
 			this.currentX;
 			this.currentY;
@@ -27,6 +30,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		onAfterRendering: function () {
 			var image = $("img[name='lageplan-img']")[0];
 			this.globalImage = image;
+
 			image.onload = function () {
 				var canvas = $("canvas[name='lageplan-canvas']")[0];
 				this.globalCanvas = canvas;
@@ -35,7 +39,22 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				var ctx = canvas.getContext("2d");
 				this.globalCtx = ctx;
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-				//$("img[name='lageplan-img']").remove();
+				var ziele=Ziele.getZiele();
+				for (var zielname in ziele) {
+					if (ziele.hasOwnProperty(zielname) ) {
+						var zielImage=new Image();
+						zielImage.src="resources/logos/"+zielname+".png";
+						var ziel=ziele[zielname];
+						const cx=ziel.cx;
+						const cy=ziel.cy;
+						const basicsize=15
+						zielImage.onload=function(){
+							const ar=this.width/this.height;
+							ctx.drawImage(this, cx - basicsize*ar, cy - basicsize, basicsize*2*ar, basicsize*2)
+						}
+					}
+				}
+					//$("img[name='lageplan-img']").remove();
 				$("img[name='lageplan-img']").css("display", "none");
 				console.log('Bild ersetzt');
 			}.bind(this);
@@ -98,8 +117,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			y = lastY;
 			moveToPosition()
 		},
-        
-        _onObjectMatched: function (oEvent) {
+
+		_onObjectMatched: function (oEvent) {
 			if (!sap.ui.Device.system.desktop) {
 				BLE.start(this.getView().getModel());
 			}

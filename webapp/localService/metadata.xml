@@ -24,6 +24,7 @@
 				<Property Name="Navigation_Points" Type="Edm.String" sap:creatable="true" sap:updatable="true" sap:deletable="true"
 					sap:label="Navigation_Points"/>
 				<Property Name="Kategorie" Type="Edm.String" sap:creatable="true" sap:updatable="true" sap:deletable="true" sap:label="Kategorie"/>
+				<Property Name="Logo" Type="Edm.String" sap:creatable="true" sap:updatable="true" sap:deletable="true" sap:label="Logo"/>
 			</EntityType>
 		</Schema>
 	</edmx:DataServices>
