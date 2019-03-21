@@ -36,11 +36,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		onAfterRendering: function () {
 			var image = $("img[name='lageplan-img']")[0];
-			console.log(image);
 			this.globalImage = image;
 			image.onload = function () {
-				var canvas = this.getView().byId('lageplan-canvas');
-				//var canvas = $("canvas[name='lageplan-canvas']")[0];
+				//var canvas = this.getView().byId('lageplan-canvas');
+				var canvas = $("canvas[name='lageplan-canvas']")[0];
+				console.log(canvas);
 				this.getView().getModel().setProperty("/globalCancas", canvas);
 				//this.globalCanvas = canvas;
 				canvas.height = window.innerHeight;
