@@ -17,7 +17,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	var gy;
 	var ctx;
 	var globalImage;
-	var ready = false;
 
 	function drawPointOnMap(newX, newY) {
 		/*		var ctx = this.getView().getModel().getProperty("/globalCtx");*/
@@ -61,7 +60,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			var aCoordinates = that.getView().getModel("coordinatesModel").getProperty("/beaconsSet");
 			drawLine(aCoordinates[0].cx, aCoordinates[0].cy, aCoordinates[1].cx, aCoordinates[1].cy); //921
 			drawLine(aCoordinates[1].cx, aCoordinates[1].cy, aCoordinates[2].cx, aCoordinates[2].cy);
-						drawLine(aCoordinates[2].cx, aCoordinates[2].cy, aCoordinates[3].cx, aCoordinates[3].cy);
+			drawLine(aCoordinates[2].cx, aCoordinates[2].cy, aCoordinates[3].cx, aCoordinates[3].cy);
 			drawLine(aCoordinates[3].cx, aCoordinates[3].cy, aCoordinates[4].cx, aCoordinates[4].cy);
 
 		}
@@ -71,14 +70,10 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
 			var model = new JSONModel({
 				currentBeacon: ''
 			});
 			this.getView().setModel(model);
-			model.attachPropertyChange(goTo);
-			view = this.getView();
-			
 			this.getView().setModel(Models.createBeaconsModel(), "coordinatesModel");
 		},
 
@@ -119,14 +114,13 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 						}
 					}
 				}
-				ready = true;
 				$("img[name='lageplan-img']").css("display", "none");
 				// console.log('Bild ersetzt');
 				// goTo(2315, 600);
 				//drawLine(792, 2756, 800, 2206);
 				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
-
+				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
 			}.bind(this);
 
 		},
@@ -169,13 +163,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		},
 
 		goTo: function () {
-			if (ready) {
-				currentX = this.getView().getModel().getData().currentBeacon.cx;
-				currentY = this.getView().getModel().getData().currentBeacon.cy;
-				gx = lastX;
-				gy = lastY;
-				moveToPosition()
-			}
+			currentX = this.getView().getModel().getData().currentBeacon.cx;
+			currentY = this.getView().getModel().getData().currentBeacon.cy;
+			gx = lastX;
+			gy = lastY;
+			moveToPosition()
 		},
 	});
 });
