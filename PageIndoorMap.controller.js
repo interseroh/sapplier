@@ -36,7 +36,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		onAfterRendering: function () {
 			var image = $("img[name='lageplan-img']")[0];
-			console.log(image);
 			this.globalImage = image;
 			image.onload = function () {
 				var canvas = this.getView().byId('lageplan-canvas');
@@ -48,7 +47,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				var ctx = canvas.getContext("2d");
 				this.getView().getModel().setProperty("/globalCtx", ctx);
 				console.log('ScaleX: ' + 3004 / window.innerWidth + ' ScaleY: ' + 3918 / window.innerHeight);
-				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+				//ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 				ctx.scale(window.innerWidth / 3004, window.innerHeight / 3918);
 				//ctx.fillRect(1569, 275, 20, 20);
 				//$("img[name='lageplan-img']").remove();
@@ -85,15 +84,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		drawPointOnMap: function (newX, newY) {
 			var ctx = this.getView().getModel().getProperty("/globalCtx");
-			console.log(ctx);
 			console.log(`Moving to x:${this.x}, y:${this.y}`);
 			if (this.lastX && this.lastY) {
 				this.globalCtx.clearRect(0, 0, 300, 400);
 			}
 
-		/*	ctx.drawImage(this.globalImage, 0, 0, canvas.width, canvas.height);
-			ctx.fillStyle = "#FF0000";
-			ctx.fillRect(newX, newY, 5, 5);*/
+			this.globalCtx.drawImage(this.globalImage, 0, 0, canvas.width, canvas.height);
+			this.globalCtx.fillStyle = "#FF0000";
+			this.globalCtx.fillRect(newX, newY, 5, 5);
 		},
 
 		moveToPosition: function () {
