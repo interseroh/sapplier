@@ -1,269 +1,274 @@
-var ble = (function() {
-    // blelication object.
-    var ble = {};
+sap.ui.define([
+	"./ble",
+	"../model/models"
+], function (BLE, Models) {
+	"use strict";
 
-    // History of enter/exit events.
-    var mRegionEvents = [];
+	// History of enter/exit events.
+	var mRegionEvents = [];
+	
+	var oModel;
+	
+	// Nearest ranged beacon.
+	var mNearestBeacon = null;
 
-    // Nearest ranged beacon.
-    var mNearestBeacon = null;
+	// Timer that displays nearby beacons.
+	var mNearestBeaconDisplayTimer = null;
 
-    // Timer that displays nearby beacons.
-    var mNearestBeaconDisplayTimer = null;
+	// Background flag.
+	var mbleInBackground = false;
 
-    // Background flag.
-    var mbleInBackground = false;
+	// Background notification id counter.
+	var mNotificationId = 0;
 
-    // Background notification id counter.
-    var mNotificationId = 0;
+	// Mbleing of region event state names.
+	// These are used in the event display string.
+	var mBeaconstateNames = {
+		'CLRegionStateInside': 'Enter',
+		'CLRegionStateOutside': 'Exit'
+	};
 
-    // Mbleing of region event state names.
-    // These are used in the event display string.
-    var mBeaconstateNames = {
-        'CLRegionStateInside': 'Enter',
-        'CLRegionStateOutside': 'Exit'
-    };
+	// Here monitored regions are defined.
+	var mBeacons = [];
 
-    // Here monitored regions are defined.
-    var mBeacons = [];
+	var mRegions = [];
 
-    var mRegions = [];
+	// var mRegionData = {
+	//     'region1': 'Region One',
+	//     'region2': 'Region Two'
+	// };
 
-    // var mRegionData = {
-    //     'region1': 'Region One',
-    //     'region2': 'Region Two'
-    // };
+	function onDeviceReady() {
+		// startMonitoringAndRanging();
+		// startNearestBeaconDisplayTimer();
+		// displayRegionEvents();
+	};
 
-    ble.initialize = function() {
-        document.addEventListener('deviceready', onDeviceReady, false);
-        document.addEventListener('pause', onAppToBackground, false);
-        document.addEventListener('resume', onAppToForeground, false);
-    };
+	function onAppToBackground() {
+		mbleInBackground = true;
+		stopNearestBeaconDisplayTimer();
+	};
 
-    function onDeviceReady() {
-        // startMonitoringAndRanging();
-        // startNearestBeaconDisplayTimer();
-        // displayRegionEvents();
-    }
+	function onAppToForeground() {
+		mbleInBackground = false;
+		startNearestBeaconDisplayTimer();
+		// displayRegionEvents();
+	};
 
-    ble.start = function() {
-        mBeacons = modeltblBeacons.getData();
-        startRanging();
-        startNearestBeaconDisplayTimer();
-    };
+	function startNearestBeaconDisplayTimer() {
+		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 750);
+	};
 
-    ble.stop = function() {
-        mAppInBackground = true;
-        // stopNearestBeaconDisplayTimer();
+	function stopNearestBeaconDisplayTimer() {
+		clearInterval(mNearestBeaconDisplayTimer);
+		mNearestBeaconDisplayTimer = null;
+	};
 
-        $.each(mRegions, function(i, region) {
-            cordova.plugins.locationManager.stopRangingBeaconsInRegion(region)
-                .fail(function(e) {
-                    console.error(e);
-                })
-                .done();
-        });
-    };
+	function startRanging() {
+		// function onDidDetermineStateForRegion(result) {
+		//     saveRegionEvent(result.state, result.region.identifier);
+		//     displayRecentRegionEvent();
 
-    function onAppToBackground() {
-        mbleInBackground = true;
-        stopNearestBeaconDisplayTimer();
-    }
+		function onDidRangeBeaconsInRegion(result) {
+			updateNearestBeacon(result.beacons);
+		}
 
-    function onAppToForeground() {
-        mbleInBackground = false;
-        startNearestBeaconDisplayTimer();
-        // displayRegionEvents();
-    }
+		function onError(errorMessage) {
+			console.log('Monitoring beacons did fail: ' + errorMessage);
+		}
 
-    function startNearestBeaconDisplayTimer() {
-        mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 750);
-    }
+		// Request permission from user to access location info.
+		cordova.plugins.locationManager.requestAlwaysAuthorization();
 
-    function stopNearestBeaconDisplayTimer() {
-        clearInterval(mNearestBeaconDisplayTimer);
-        mNearestBeaconDisplayTimer = null;
-    }
+		// Create delegate object that holds beacon callback functions.
+		var delegate = new cordova.plugins.locationManager.Delegate();
 
-    function startRanging() {
-        // function onDidDetermineStateForRegion(result) {
-        //     saveRegionEvent(result.state, result.region.identifier);
-        //     displayRecentRegionEvent();
-        // }
+		// Set delegate functions.
+		// delegate.didDetermineStateForRegion = onDidDetermineStateForRegion;
+		delegate.didRangeBeaconsInRegion = onDidRangeBeaconsInRegion;
 
-        function onDidRangeBeaconsInRegion(result) {
-            updateNearestBeacon(result.beacons);
-        }
+		cordova.plugins.locationManager.setDelegate(delegate);
 
-        function onError(errorMessage) {
-            console.log('Monitoring beacons did fail: ' + errorMessage);
-        }
+		// Start monitoring and ranging beacons.
+		startRangingBeacons(mBeacons, onError);
+	};
 
-        // Request permission from user to access location info.
-        cordova.plugins.locationManager.requestAlwaysAuthorization();
+	function startRangingBeacons(beacons, errorCallback) {
+		// Start monitoring and ranging regions.
+		for (var i in beacons) {
+			startRangingBeacon(beacons[i], errorCallback);
+		}
+	};
 
-        // Create delegate object that holds beacon callback functions.
-        var delegate = new cordova.plugins.locationManager.Delegate();
+	function startRangingBeacon(beacon, errorCallback) {
+		// Create a region object.
+		var identifier = beacon.id.toString();
+		var uuid = "F7826DA6-4FA2-4E98-8024-BC5B71E0893E";
+		var major = parseInt(beacon.major);
+		var minor = parseInt(beacon.minor);
+		var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
 
-        // Set delegate functions.
-        // delegate.didDetermineStateForRegion = onDidDetermineStateForRegion;
-        delegate.didRangeBeaconsInRegion = onDidRangeBeaconsInRegion;
+		mRegions.push(beaconRegion);
 
-        cordova.plugins.locationManager.setDelegate(delegate);
+		// Start ranging.
+		cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
+			.fail(errorCallback)
+			.done();
 
-        // Start monitoring and ranging beacons.
-        startRangingBeacons(mBeacons, onError);
-    }
+	};
 
-    function startRangingBeacons(beacons, errorCallback) {
-        // Start monitoring and ranging regions.
-        for (var i in beacons) {
-            startRangingBeacon(beacons[i], errorCallback);
-        }
-    }
+	function saveRegionEvent(eventType, regionId) {
+		// Save event.
+		mRegionEvents.push({
+			type: eventType,
+			time: getTimeNow(),
+			regionId: regionId
+		});
 
-    function startRangingBeacon(beacon, errorCallback) {
-        // Create a region object.
-        var identifier = beacon.ID.toString();
-        var uuid = beacon.UUID.toString();
-        var major = parseInt(beacon.MAJOR);
-        var minor = parseInt(beacon.MINOR);
-        var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
+		// Truncate if more than ten entries.
+		if (mRegionEvents.length > 10) {
+			mRegionEvents.shift();
+		}
+	};
 
-        mRegions.push(beaconRegion);
+	function getBeaconId(beacon) {
+		return beacon.uuid + ':' + beacon.major + ':' + beacon.minor;
+	};
 
-        // Start ranging.
-        cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
-            .fail(errorCallback)
-            .done();
+	function isSameBeacon(beacon1, beacon2) {
+		return getBeaconId(beacon1) == getBeaconId(beacon2);
+	};
 
-    }
+	function isNearerThan(beacon1, beacon2) {
+		return beacon1.accuracy > 0 && beacon2.accuracy > 0 && beacon1.accuracy < beacon2.accuracy;
+	};
 
-    function saveRegionEvent(eventType, regionId) {
-        // Save event.
-        mRegionEvents.push({
-            type: eventType,
-            time: getTimeNow(),
-            regionId: regionId
-        });
+	function updateNearestBeacon(beacons) {
+		for (var i = 0; i < beacons.length; ++i) {
+			var beacon = beacons[i];
+			if (!mNearestBeacon) {
+				mNearestBeacon = beacon;
+			} else {
+				if (isSameBeacon(beacon, mNearestBeacon) ||
+					isNearerThan(beacon, mNearestBeacon)) {
+					mNearestBeacon = beacon;
+				}
+			}
+		}
+	};
 
-        // Truncate if more than ten entries.
-        if (mRegionEvents.length > 10) {
-            mRegionEvents.shift();
-        }
-    }
+	function displayNearestBeacon() {
+		if (!mNearestBeacon) {
+			return;
+		}
+		// minor = Lagerreihe
+		// ACCURACY = Entfernung
+		var data = {
+			UUID: mNearestBeacon.uuid,
+			MAJOR: mNearestBeacon.major,
+			MINOR: mNearestBeacon.minor,
+			PROXIMITY: mNearestBeacon.proximity,
+			ACCURACY: mNearestBeacon.accuracy,
+			RSSI: mNearestBeacon.rssi,
+			LOCATION: ("00000" + mNearestBeacon.minor).slice(-5),
+			DISTANCE: mNearestBeacon.accuracy,
+		};
 
-    function getBeaconId(beacon) {
-        return beacon.uuid + ':' + beacon.major + ':' + beacon.minor;
-    }
+		var beacon = mBeacons.find(function (e) {
+			var major = e.major == mNearestBeacon.major;
+			var minor = e.minor == mNearestBeacon.minor;
+			return (major && minor);
+		});
+		
+		oModel.setProperty("/currentBeacon", `ID: ${beacon.id} MAJOR: ${beacon.major} MINOR: ${beacon.minor}`);
+	};
 
-    function isSameBeacon(beacon1, beacon2) {
-        return getBeaconId(beacon1) == getBeaconId(beacon2);
-    }
+	function displayRecentRegionEvent() {
+		if (mbleInBackground) {
+			// Set notification title.
+			var event = mRegionEvents[mRegionEvents.length - 1];
+			if (!event) {
+				return;
+			}
+			var title = getEventDisplayString(event);
 
-    function isNearerThan(beacon1, beacon2) {
-        return beacon1.accuracy > 0 && beacon2.accuracy > 0 && beacon1.accuracy < beacon2.accuracy;
-    }
+			// Create notification.
+			cordova.plugins.notification.local.schedule({
+				id: ++mNotificationId,
+				title: title
+			});
+		} else {
+			displayRegionEvents();
+		}
+	};
 
-    function updateNearestBeacon(beacons) {
-        for (var i = 0; i < beacons.length; ++i) {
-            var beacon = beacons[i];
-            if (!mNearestBeacon) {
-                mNearestBeacon = beacon;
-            } else {
-                if (isSameBeacon(beacon, mNearestBeacon) ||
-                    isNearerThan(beacon, mNearestBeacon)) {
-                    mNearestBeacon = beacon;
-                }
-            }
-        }
-    }
+	function displayRegionEvents() {
+		// Clear list.
+		$('#events').empty();
 
-    function displayNearestBeacon() {
-        if (!mNearestBeacon) {
-            return;
-        }
-        // minor = Lagerreihe
-        // ACCURACY = Entfernung
-        var data = {
-            UUID: mNearestBeacon.uuid,
-            MAJOR: mNearestBeacon.major,
-            MINOR: mNearestBeacon.minor,
-            PROXIMITY: mNearestBeacon.proximity,
-            ACCURACY: mNearestBeacon.accuracy,
-            RSSI: mNearestBeacon.rssi,
-            LOCATION: ("00000" + mNearestBeacon.minor).slice(-5),
-            DISTANCE: mNearestBeacon.accuracy,
-        };
+		// Update list.
+		for (var i = mRegionEvents.length - 1; i >= 0; --i) {
+			var event = mRegionEvents[i];
+			var title = getEventDisplayString(event);
+			var element = $(
+				'<li>' + '<strong>' + title + '</strong>' + '</li>'
+			);
+			$('#events').bleend(element);
+		}
 
-        ModelData.Update(selDialogLocationBLE, ["UUID", "MAJOR", "MINOR"], [data.UUID, data.MAJOR, data.MINOR], data);
+		// If the list is empty display a help text.
+		if (mRegionEvents.length <= 0) {
+			var element = $(
+				'<li>' + '<strong>' + 'Waiting for region events, please move into or out of a beacon region.' + '</strong>' + '</li>'
+			);
+			$('#events').bleend(element);
+		}
+	};
 
-        // show the last x values
-        if (modelselDialogLocationBLE.getData().length > 1) {
-            var firstEntry = modelselDialogLocationBLE.getData()[0];
-            ModelData.Delete(selDialogLocationBLE, ["UUID", "MAJOR", "MINOR"], [firstEntry.UUID, firstEntry.MAJOR, firstEntry.MINOR]);
-        }
-    }
+	function getEventDisplayString(event) {
+		/*        return event.time + ': ' + mBeaconstateNames[event.type] + ' ' + mRegionData[event.regionId];*/
+	};
 
-    function displayRecentRegionEvent() {
-        if (mbleInBackground) {
-            // Set notification title.
-            var event = mRegionEvents[mRegionEvents.length - 1];
-            if (!event) {
-                return;
-            }
-            var title = getEventDisplayString(event);
+	function getTimeNow() {
+		function pad(n) {
+			return (n < 10) ? '0' + n : n;
+		}
 
-            // Create notification.
-            cordova.plugins.notification.local.schedule({
-                id: ++mNotificationId,
-                title: title
-            });
-        } else {
-            displayRegionEvents();
-        }
-    }
+		function format(h, m, s) {
+			return pad(h) + ':' + pad(m) + ':' + pad(s);
+		}
 
-    function displayRegionEvents() {
-        // Clear list.
-        $('#events').empty();
+		var d = new Date();
+		return format(d.getHours(), d.getMinutes(), d.getSeconds());
+	}
 
-        // Update list.
-        for (var i = mRegionEvents.length - 1; i >= 0; --i) {
-            var event = mRegionEvents[i];
-            var title = getEventDisplayString(event);
-            var element = $(
-                '<li>' + '<strong>' + title + '</strong>' + '</li>'
-            );
-            $('#events').bleend(element);
-        }
+	return {
 
-        // If the list is empty display a help text.
-        if (mRegionEvents.length <= 0) {
-            var element = $(
-                '<li>' + '<strong>' + 'Waiting for region events, please move into or out of a beacon region.' + '</strong>' + '</li>'
-            );
-            $('#events').bleend(element);
-        }
-    }
+		initialize: function () {
+			document.addEventListener('deviceready', onDeviceReady, false);
+			document.addEventListener('pause', onAppToBackground, false);
+			document.addEventListener('resume', onAppToForeground, false);
+		},
 
-    function getEventDisplayString(event) {
-        return event.time + ': ' + mBeaconstateNames[event.type] + ' ' + mRegionData[event.regionId];
-    }
+		start: function (model) {
+			mBeacons = Models.createBeaconsModel().getData().beaconsSet;
+			startRanging();
+			startNearestBeaconDisplayTimer();
+			oModel = model;
+		},
 
-    function getTimeNow() {
-        function pad(n) {
-            return (n < 10) ? '0' + n : n;
-        }
+		stop: function () {
+			/*        mAppInBackground = true;*/
+			// stopNearestBeaconDisplayTimer();
 
-        function format(h, m, s) {
-            return pad(h) + ':' + pad(m) + ':' + pad(s);
-        }
+			$.each(mRegions, function (i, region) {
+				cordova.plugins.locationManager.stopRangingBeaconsInRegion(region)
+					.fail(function (e) {
+						console.log(e);
+					})
+					.done();
+			});
+		},
 
-        var d = new Date();
-        return format(d.getHours(), d.getMinutes(), d.getSeconds());
-    }
-
-    return ble;
-
-})();
+	};
+});
