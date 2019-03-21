@@ -9,8 +9,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 ], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE, Ziele) {
 	"use strict";
 
-	var lastX = 0;
-	var lastY = 0;
+	var lastX = 921;
+	var lastY = 3690;
 	var currentX;
 	var currentY;
 	var gx;
@@ -63,7 +63,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		// console.log(ctx);
 		// console.log(`Moving to x:${newX}, y:${newY}`);
 		if (lastX && lastY) {
-			globalCtx.clearRect(0, 0, 300, 400);
+			ctx.clearRect(0, 0, 300, 400);
 		}
 
 		ctx.drawImage(globalImage, 0, 0, canvas.width, canvas.height);
@@ -95,14 +95,53 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	}
 
 	function drawNavigation(id, that) {
-		if (id == 1) {
-			console.log('Route zeichnen für: ' + 1);
-			var aCoordinates = that.getView().getModel("coordinatesModel").getProperty("/beaconsSet");
-			drawLine(aCoordinates[0].cx, aCoordinates[0].cy, aCoordinates[1].cx, aCoordinates[1].cy); //921
-			drawLine(aCoordinates[1].cx, aCoordinates[1].cy, aCoordinates[2].cx, aCoordinates[2].cy);
-			drawLine(aCoordinates[2].cx, aCoordinates[2].cy, aCoordinates[3].cx, aCoordinates[3].cy);
-			drawLine(aCoordinates[3].cx, aCoordinates[3].cy, aCoordinates[4].cx, aCoordinates[4].cy);
+		id = parseInt(id);
+		console.log(`Route zeichnen für: ${id}`);
+		var aCoordinates = that.getView().getModel("coordinatesModel").getProperty("/beaconsSet");
+		switch (id) {
+		case 1:
+			drawTo(2, that);
+			drawLine(805, 1655, 650, 1400);
+			break;
+		case 2:
+			drawTo(3, that);
+			drawLine(805, 1106, 650, 950);
+			break;
+		case 3:
+			drawTo(4, that);
+			drawLine(797, 601, 650, 400);
+			break;
+		case 4:
+			drawTo(8, that);
+			drawLine(2315, 601, 2500, 500);
+			break;
+		case 5:
+			drawTo(9, that);
+			drawLine(2323, 1106, 2400, 1000);
+			break;
+		case 6:
+			drawTo(10, that);
+			drawLine(2323, 1655, 2400, 1550);
+			break;
+		default:
 
+		}
+	}
+
+	function drawTo(end, that) {
+		var aCoordinates = that.getView().getModel("coordinatesModel").getProperty("/beaconsSet");
+
+		if (end < 6) {
+			for (let i = 0; i <= end; i++) {
+				console.log(i);
+				drawLine(aCoordinates[i].cx, aCoordinates[i].cy, aCoordinates[i + 1].cx, aCoordinates[i + 1].cy);
+			}
+		} else {
+			drawLine(aCoordinates[0].cx, aCoordinates[0].cy, aCoordinates[11].cx, aCoordinates[11].cy);
+			for (let i = 11; i >= end; i--) {
+				console.log(i);
+				drawLine(aCoordinates[i].cx, aCoordinates[i].cy, aCoordinates[i - 1].cx, aCoordinates[i - 1].cy);
+			}
 		}
 	}
 

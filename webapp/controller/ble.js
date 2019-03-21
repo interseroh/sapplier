@@ -57,7 +57,7 @@ sap.ui.define([
 	};
 
 	function startNearestBeaconDisplayTimer() {
-		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 750);
+		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 350);
 	};
 
 	function stopNearestBeaconDisplayTimer() {
