@@ -15,7 +15,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
 			var model = new JSONModel({currentBeacon: '' });
 			this.getView().setModel(model);
-            model.attachPropertyChange(this.goTo());
+            model.attachPropertyChange(this.goTo);
             
             this.lastX = 0;
 			this.lastY = 0;
