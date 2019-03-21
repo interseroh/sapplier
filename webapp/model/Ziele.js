@@ -11,8 +11,8 @@ sap.ui.define([], function () {
 					"cy": 146
 				},
 				telekom: {
-					"cx": 51,
-					"cy": 51
+					"cx": 200,
+					"cy": 200
 				},
 				openGrid: {
 					"cx": 356,
