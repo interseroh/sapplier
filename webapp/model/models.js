@@ -26,22 +26,28 @@ sap.ui.define([
 			var category = {
 				categorySet: [{
 					"ID": "1",
-					"Name": "Personal"
+					"Name": "Personal",
+					"Icon": "sap-icon://collaborate"
 				}, {
 					"ID": "2",
-					"Name": "Umwelt"
+					"Name": "Umwelt",
+					"Icon": "sap-icon://delete"
 				}, {
 					"ID": "3",
-					"Name": "IT"
+					"Name": "IT",
+					"Icon": "sap-icon://desktop-mobile"
 				}, {
 					"ID": "4",
-					"Name": "Energie"
+					"Name": "Energie",
+					"Icon": "sap-icon://energy-saving-lightbulb"
 				}, {
 					"ID": "5",
-					"Name": "Dienstleistung"
+					"Name": "Dienstleistung",
+					"Icon": "sap-icon://collaborate"
 				}, {
 					"ID": "6",
-					"Name": "Alle"
+					"Name": "Alle",
+					"Icon": "sap-icon://world"
 				}]
 			};
 

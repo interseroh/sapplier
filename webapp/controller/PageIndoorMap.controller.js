@@ -46,6 +46,27 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		}
 	}
 
+	function drawLine(x1, y1, x2, y2) {
+		ctx.beginPath();
+		ctx.lineWidth = 15;
+		ctx.strokeStyle = "#75b2e5";
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+		ctx.stroke();
+	}
+
+	function drawNavigation(id, that) {
+		if (id == 1) {
+			console.log('Route zeichnen für: ' + 1);
+			var aCoordinates = that.getView().getModel("coordinatesModel").getProperty("/beaconsSet");
+			drawLine(aCoordinates[0].cx, aCoordinates[0].cy, aCoordinates[1].cx, aCoordinates[1].cy); //921
+			drawLine(aCoordinates[1].cx, aCoordinates[1].cy, aCoordinates[2].cx, aCoordinates[2].cy);
+						drawLine(aCoordinates[2].cx, aCoordinates[2].cy, aCoordinates[3].cx, aCoordinates[3].cy);
+			drawLine(aCoordinates[3].cx, aCoordinates[3].cy, aCoordinates[4].cx, aCoordinates[4].cy);
+
+		}
+	}
+
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
 
 		onInit: function () {
@@ -55,7 +76,16 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				currentBeacon: ''
 			});
 			this.getView().setModel(model);
-			// this.getView().getModel().attachPropertyChange(function(test) { console.log(test) }, this);
+			model.attachPropertyChange(goTo);
+			view = this.getView();
+			
+			this.getView().setModel(Models.createBeaconsModel(), "coordinatesModel");
+		},
+
+		_onUrlMatched: function (oEvent) {
+			console.log(oEvent);
+			var sId = oEvent.getParameter("arguments").ID;
+			//console.log(sId)
 		},
 
 		onAfterRendering: function () {
@@ -93,6 +123,10 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				$("img[name='lageplan-img']").css("display", "none");
 				// console.log('Bild ersetzt');
 				// goTo(2315, 600);
+				//drawLine(792, 2756, 800, 2206);
+				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
+
 			}.bind(this);
 
 		},
@@ -119,6 +153,13 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			}
 			return oQuery;
 
+		},
+
+		_onUrlMatched: function (oEvent) {
+			var id = oEvent.getParameter("arguments").navTarget;
+			if (id) {
+				drawNavigation(id, this);
+			}
 		},
 
 		_onObjectMatched: function (oEvent) {

@@ -14,6 +14,7 @@
 				</Key>
 				<Property Name="ID" Type="Edm.String" sap:creatable="true" sap:updatable="true" sap:deletable="true" sap:label="ID"/>
 				<Property Name="Name" Type="Edm.String" sap:creatable="true" sap:updatable="true" sap:deletable="true" sap:label="Name"/>
+				<Property Name="Icon" Type="Edm.String" sap:creatable="true" sap:updatable="true" sap:deletable="true" sap:label="Icon"/>
 			</EntityType>
 			<EntityType Name="Lieferort">
 				<Key>

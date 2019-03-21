@@ -81,11 +81,13 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			}
 
 		},
+		
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.getView().setModel(Models.createCategoryModel());
 			BLE.initialize();
 		},
+		
 		onExit: function () {
 
 			// to destroy templates for bound aggregations when templateShareable is true on exit to prevent duplicateId issue
