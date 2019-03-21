@@ -107,9 +107,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.getView().setModel(Models.createLocationModel());
 			this.oRouter.getRoute("Page7").attachPatternMatched(this._onObjectMatched, this);
-			this.getView().byId("searchField").attachLiveChange(
+/*			this.getView().byId("searchField").attachLiveChange(
 				this.onFilterName
-			);
+			);*/
 		},
 
 		onFilterCategory: function (value) {
