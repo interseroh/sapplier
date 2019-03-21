@@ -20,21 +20,55 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	var canvas;
 	var backupCanvas;
     var heinz;
-    function heinzOn(x, y){
-	    ctx.drawImage(backupCanvas, 0, 0);
-	    ctx.drawImage(heinz, x,y);
+
+    function drawBasis(){
+				var image = $("img[name='lageplan-img']")[0];
+				globalImage = image;
+				canvas = $("canvas[name='lageplan-canvas']")[0];
+				// console.log(canvas);
+				// this.getView().getModel().setProperty("/globalCancas", canvas);
+				//this.globalCanvas = canvas;
+				canvas.height = window.innerHeight;
+				canvas.width = window.innerWidth;
+				ctx = canvas.getContext("2d");
+				ctx.scale(1, 1);
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+				// this.getView().getModel().setProperty("/globalCtx", ctx);
+				// console.log('ScaleX: ' + 3004 / window.innerWidth + ' ScaleY: ' + 3918 / window.innerHeight);
+				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+				ctx.scale(window.innerWidth / 3004, window.innerHeight / 3918);
+				var ziele = Ziele.getZiele();
+				for (var zielname in ziele) {
+					if (ziele.hasOwnProperty(zielname)) {
+						var zielImage = new Image();
+						zielImage.src = "resources/logos/" + zielname + ".png";
+						var ziel = ziele[zielname];
+						const cx = ziel.cx;
+						const cy = ziel.cy;
+						const basicsize = 100
+						zielImage.onload = function () {
+							const ar = this.width / this.height;
+							ctx.drawImage(this, cx - basicsize * ar, cy - basicsize, basicsize * 2 * ar, basicsize * 2)
+						}
+					}
+				};
+				$("img[name='lageplan-img']").css("display", "none");
     }
+    function heinzOn(x, y){
+        drawBasis();
+	    ctx.drawImage(heinz, x,y);
+    };
 	function drawPointOnMap(newX, newY) {
 		/*		var ctx = this.getView().getModel().getProperty("/globalCtx");*/
 		// console.log(ctx);
-		// console.log(`Moving to x:${gx}, y:${gy}`);
+		// console.log(`Moving to x:${newX}, y:${newY}`);
 		if (lastX && lastY) {
 			globalCtx.clearRect(0, 0, 300, 400);
 		}
 
 		ctx.drawImage(globalImage, 0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "#FF0000";
-		ctx.fillRect(newX, newY, 5, 5);
+		heinzOn(newX, newY);
 	}
 
 	function moveToPosition() {
@@ -124,14 +158,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 					}
 				};
 				$("img[name='lageplan-img']").css("display", "none");
-				backupCanvas=document.createElement('canvas');
-				backupCanvas.height=canvas.height;
-				backupCanvas.width=canvas.width;
-				backupCanvas.getContext("2d").scale(3004/window.innerWidth, 3918/window.innerHeight);
-				backupCanvas.getContext("2d").drawImage(canvas, 0, 0);
-				heinzOn(1000, 400);
-				heinzOn(1000, 700);
-				heinzOn(1000, 1100);
+
 				// console.log('Bild ersetzt');
 				// goTo(2315, 600);
 				//drawLine(792, 2756, 800, 2206);
