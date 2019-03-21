@@ -15,6 +15,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
 			var model = new JSONModel({currentBeacon: '' });
 			this.getView().setModel(model);
+            model.attachPropertyChange(this.goTo());
             
             this.lastX = 0;
 			this.lastY = 0;
@@ -91,9 +92,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			}
 		},
 
-		goTo: function (toX, toY) {
-			currentX = toX;
-			currentY = toY;
+		goTo: function () {
+			currentX = this.getView().getModel().getProperty("cx");
+			currentY = this.getView().getModel().getProperty("cy");;
 			x = lastX;
 			y = lastY;
 			moveToPosition()
@@ -104,6 +105,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				BLE.start(this.getView().getModel());
 			}
 		},
-
+		
 	});
 });

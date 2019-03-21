@@ -4,49 +4,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/json/JSONModel",
 	"../model/models",
-	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator",
 	"./ble"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, Filter, FilterOperator, BLE) {
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page6", {
-		handleRouteMatched: function (oEvent) {
-			var sAppId = "App5c90f29e06f87f01158d7743";
 
-			var oParams = {};
-
-			if (oEvent.mParameters.data.context) {
-				this.sContext = oEvent.mParameters.data.context;
-
-			} else {
-				if (this.getOwnerComponent().getComponentData()) {
-					var patternConvert = function (oParam) {
-						if (Object.keys(oParam).length !== 0) {
-							for (var prop in oParam) {
-								if (prop !== "sourcePrototype") {
-									return prop + "(" + oParam[prop][0] + ")";
-								}
-							}
-						}
-					};
-
-					this.sContext = patternConvert(this.getOwnerComponent().getComponentData().startupParameters);
-
-				}
-			}
-
-			var oPath;
-
-			if (this.sContext) {
-				oPath = {
-					path: "/" + this.sContext,
-					parameters: oParams
-				};
-				this.getView().bindObject(oPath);
-			}
-
-		},
 		_onStandardListItemPress: function (oEvent) {
 
 			var oBindingContext = oEvent.getParameter("listItem").getBindingContext();
@@ -120,7 +83,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		},
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this.oRouter.getTarget("Page6").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
 			this.getView().setModel(Models.createCategoryModel());
 			BLE.initialize();
 		},
@@ -145,22 +107,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				}
 			}
 
-		},
-
-		onFilterInvoices: function () {
-
-			// build filter array
-			var aFilter = [];
-			var sQuery = "Name";
-			if (sQuery) {
-				aFilter.push(new Filter("LocationName", FilterOperator.Contains, sQuery));
-			}
-
-			// filter binding
-			var oList = this.getView().byId("locationList");
-			var oBinding = oList.getBinding("items");
-			oBinding.filter(aFilter);
 		}
-
 	});
 }, /* bExport= */ true);
