@@ -7,14 +7,54 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"./ble"
 ], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE) {
 	"use strict";
-	
-/*	var lastX = 0;
+
+	var lastX = 0;
 	var lastY = 0;
 	var currentX;
 	var currentY;
-	var x;
-	var y;*/
-	
+	var gx;
+	var gy;
+	var ctx;
+	var globalImage;
+	var view;
+
+	function drawPointOnMap(newX, newY) {
+		/*		var ctx = this.getView().getModel().getProperty("/globalCtx");*/
+		console.log(ctx);
+		console.log(`Moving to x:${gx}, y:${gy}`);
+		if (lastX && lastY) {
+			globalCtx.clearRect(0, 0, 300, 400);
+		}
+
+		ctx.drawImage(globalImage, 0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "#FF0000";
+		ctx.fillRect(newX, newY, 5, 5);
+	}
+
+	function moveToPosition() {
+		gx = gx + ((currentX - lastX) / 10);
+		gy = gy + (currentY - lastY) / 10;
+
+		drawPointOnMap(gx, gy);
+
+		if (((gx - currentX) * (currentX - lastX) < 0) || (gy - currentY) * (currentY - lastY) < 0) {
+			setTimeout(moveToPosition, 50);
+		} else {
+			lastX = currentX;
+			lastY = currentY;
+		}
+	}
+
+	function goTo(x, y) {
+		currentX = view.getModel().getProperty("cx");
+		currentY = view.getModel().getProperty("cy");
+		/*		currentX = x;
+				currentY = y;*/
+		gx = lastX;
+		gy = lastY;
+		moveToPosition()
+	}
+
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
 
 		onInit: function () {
@@ -24,19 +64,13 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				currentBeacon: ''
 			});
 			this.getView().setModel(model);
-            model.attachPropertyChange(this.goTo);
-            
-            this.lastX = 0;
-			this.lastY = 0;
-			this.currentX;
-			this.currentY;
-			this.x;
-			this.y;
+			model.attachPropertyChange(goTo);
+			view = this.getView();
 		},
 
 		onAfterRendering: function () {
 			var image = $("img[name='lageplan-img']")[0];
-			this.globalImage = image;
+			globalImage = image;
 			image.onload = function () {
 				//var canvas = this.getView().byId('lageplan-canvas');
 				var canvas = $("canvas[name='lageplan-canvas']")[0];
@@ -45,8 +79,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				//this.globalCanvas = canvas;
 				canvas.height = window.innerHeight;
 				canvas.width = window.innerWidth;
-				var ctx = canvas.getContext("2d");
-				this.getView().getModel().setProperty("/globalCtx", ctx);
+				ctx = canvas.getContext("2d");
+				// this.getView().getModel().setProperty("/globalCtx", ctx);
 				console.log('ScaleX: ' + 3004 / window.innerWidth + ' ScaleY: ' + 3918 / window.innerHeight);
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 				ctx.scale(window.innerWidth / 3004, window.innerHeight / 3918);
@@ -54,7 +88,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				//$("img[name='lageplan-img']").remove();
 				$("img[name='lageplan-img']").css("display", "none");
 				console.log('Bild ersetzt');
-				this.goTo(2315, 600);
+				// goTo(2315, 600);
 			}.bind(this);
 
 		},
@@ -83,48 +117,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		},
 
-		drawPointOnMap: function (newX, newY) {
-			var ctx = this.getView().getModel().getProperty("/globalCtx");
-			console.log(ctx);
-			console.log(`Moving to x:${this.x}, y:${this.y}`);
-			if (this.lastX && this.lastY) {
-				this.globalCtx.clearRect(0, 0, 300, 400);
-			}
-
-		/*	ctx.drawImage(this.globalImage, 0, 0, canvas.width, canvas.height);
-			ctx.fillStyle = "#FF0000";
-			ctx.fillRect(newX, newY, 5, 5);*/
-		},
-
-		moveToPosition: function () {
-			this.x = this.x + ((this.currentX - this.lastX) / 10);
-			this.y = this.y + (this.currentY - this.lastY) / 10;
-
-			this.drawPointOnMap(this.x, this.y);
-
-			if (((this.x - this.currentX) * (this.currentX - this.lastX) < 0) || (this.y - this.currentY) * (this.currentY - this.lastY) < 0) {
-				setTimeout(this.moveToPosition, 50);
-			} else {
-				this.lastX = this.currentX;
-				this.lastY = this.currentY;
-			}
-		},
-
-		goTo: function (x,y) {
-	/*		this.currentX = this.getView().getModel().getProperty("cx");
-			this.currentY = this.getView().getModel().getProperty("cy");*/
-			this.currentX = x;
-			this.currentY = y;
-			this.x = this.lastX;
-			this.y = this.lastY;
-			this.moveToPosition()
-		},
-
 		_onObjectMatched: function (oEvent) {
-			if (!sap.ui.Device.system.desktop) {
+			if (1 == 2) { //!sap.ui.Device.system.desktop
 				BLE.start(this.getView().getModel());
 			}
 		},
-		
+
 	});
 });
