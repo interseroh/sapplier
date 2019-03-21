@@ -4,9 +4,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/json/JSONModel",
 	"../model/models",
-	"./ble",
-	"../model/Ziele"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE, Ziele) {
+	"./ble"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE) {
 	"use strict";
 	
 /*	var lastX = 0;
@@ -25,7 +24,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				currentBeacon: ''
 			});
 			this.getView().setModel(model);
-            model.attachPropertyChange(this.goTo);
+            model.attachPropertyChange(this.goTo());
             
             this.lastX = 0;
 			this.lastY = 0;
@@ -38,36 +37,20 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		onAfterRendering: function () {
 			var image = $("img[name='lageplan-img']")[0];
 			this.globalImage = image;
-
 			image.onload = function () {
-				//var canvas = this.getView().byId('lageplan-canvas');
-				var canvas = $("canvas[name='lageplan-canvas']")[0];
-				console.log(canvas);
+				var canvas = this.getView().byId('lageplan-canvas');
+				//var canvas = $("canvas[name='lageplan-canvas']")[0];
 				this.getView().getModel().setProperty("/globalCancas", canvas);
 				//this.globalCanvas = canvas;
 				canvas.height = window.innerHeight;
 				canvas.width = window.innerWidth;
 				var ctx = canvas.getContext("2d");
-
 				this.getView().getModel().setProperty("/globalCtx", ctx);
 				console.log('ScaleX: ' + 3004 / window.innerWidth + ' ScaleY: ' + 3918 / window.innerHeight);
-				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+				//ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 				ctx.scale(window.innerWidth / 3004, window.innerHeight / 3918);
-				var ziele=Ziele.getZiele();
-				for (var zielname in ziele) {
-					if (ziele.hasOwnProperty(zielname) ) {
-						var zielImage=new Image();
-						zielImage.src="resources/logos/"+zielname+".png";
-						var ziel=ziele[zielname];
-						const cx=ziel.cx;
-						const cy=ziel.cy;
-						const basicsize=100
-						zielImage.onload=function(){
-							const ar=this.width/this.height;
-							ctx.drawImage(this, cx - basicsize*ar, cy - basicsize, basicsize*2*ar, basicsize*2)
-						}
-					}
-				}
+				//ctx.fillRect(1569, 275, 20, 20);
+				//$("img[name='lageplan-img']").remove();
 				$("img[name='lageplan-img']").css("display", "none");
 				console.log('Bild ersetzt');
 				this.goTo(2315, 600);
@@ -101,15 +84,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		drawPointOnMap: function (newX, newY) {
 			var ctx = this.getView().getModel().getProperty("/globalCtx");
-			console.log(ctx);
 			console.log(`Moving to x:${this.x}, y:${this.y}`);
 			if (this.lastX && this.lastY) {
 				this.globalCtx.clearRect(0, 0, 300, 400);
 			}
 
-		/*	ctx.drawImage(this.globalImage, 0, 0, canvas.width, canvas.height);
-			ctx.fillStyle = "#FF0000";
-			ctx.fillRect(newX, newY, 5, 5);*/
+			this.globalCtx.drawImage(this.globalImage, 0, 0, canvas.width, canvas.height);
+			this.globalCtx.fillStyle = "#FF0000";
+			this.globalCtx.fillRect(newX, newY, 5, 5);
 		},
 
 		moveToPosition: function () {

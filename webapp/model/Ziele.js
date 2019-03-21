@@ -3,28 +3,28 @@ sap.ui.define([], function () {
 		getZiele: function () {
 			return {
 				randstad: {
-					"cx": 51,
-					"cy": 211
+					"cx": 500,
+					"cy": 1400
 				},
 				interseroh: {
-					"cx": 50,
-					"cy": 146
+					"cx": 500,
+					"cy": 900
 				},
 				telekom: {
-					"cx": 200,
-					"cy": 200
+					"cx": 500,
+					"cy": 300
 				},
 				openGrid: {
-					"cx": 356,
-					"cy": 53
+					"cx": 2500,
+					"cy": 400
 				},
 				eMaks: {
-					"cx": 357,
-					"cy": 143
+					"cx": 2500,
+					"cy": 900
 				},
 				uniPer: {
-					"cx": 359,
-					"cy": 212
+					"cx": 2500,
+					"cy": 1400
 				}
 			};
 		}

@@ -12,7 +12,7 @@
 				<headerToolbar>
 					<Toolbar width="" visible="true" design="Solid" enabled="true">
 						<content>
-							<SearchField placeholder="Search" width="100%" visible="true" showSearchButton="true" />
+							<SearchField id="searchField" placeholder="Search" showSearchButton="true" visible="true" width="100%"/>
 						</content>
 					</Toolbar>
 				</headerToolbar>
