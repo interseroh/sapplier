@@ -17,6 +17,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	var gy;
 	var ctx;
 	var globalImage;
+	var canvas;
 
 	function drawPointOnMap(newX, newY) {
 		/*		var ctx = this.getView().getModel().getProperty("/globalCtx");*/
@@ -88,9 +89,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			globalImage = image;
 			image.onload = function () {
 				//var canvas = this.getView().byId('lageplan-canvas');
-				var canvas = $("canvas[name='lageplan-canvas']")[0];
+				canvas = $("canvas[name='lageplan-canvas']")[0];
 				// console.log(canvas);
-				this.getView().getModel().setProperty("/globalCancas", canvas);
+				// this.getView().getModel().setProperty("/globalCancas", canvas);
 				//this.globalCanvas = canvas;
 				canvas.height = window.innerHeight;
 				canvas.width = window.innerWidth;
