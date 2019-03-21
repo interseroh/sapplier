@@ -22,7 +22,7 @@
 		"_version": "1.3.0",
 		"technology": "UI5",
 		"icons": {
-			"icon": "",
+			"icon": "sap-icon://car-rental",
 			"favIcon": "",
 			"phone": "",
 			"phone@2": "",
@@ -30,9 +30,9 @@
 			"tablet@2": ""
 		},
 		"deviceTypes": {
-			"desktop": true,
-			"tablet": true,
-			"phone": true
+			"desktop": false,
+			"tablet": false,
+			"phone": false
 		}
 	},
 	"sap.ui5": {
@@ -60,7 +60,9 @@
 			}
 		},
 		"resources": {
-			"css": []
+			"css": [{
+				"uri": "resources/css/app.css"
+			}]
 		},
 		"routing": {
 			"config": {

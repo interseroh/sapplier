@@ -1,41 +1,37 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.Page7" xmlns="sap.m"
-	xmlns:layout="sap.ui.commons.layout">
-	<Page id="page7" showHeader="true" title="" showFooter="false" showNavButton="true"
-		navButtonPress="_onButtonPress" enableScrolling="false">
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:layout="sap.ui.commons.layout" controllerName="com.sap.build.standard.supplierNavigator.controller.Page7">
+	<Page xmlns="sap.m" title="" id="page7" showHeader="true" enableScrolling="false" showNavButton="true" showFooter="false" navButtonPress="_onButtonPress">
 		<content>
-			<List id="locationList" mode="SingleSelectMaster" width="100%" headerText="Header" footerText="" backgroundDesign="Solid" showSeparators="All" growing="true"
-				growingThreshold="20" growingScrollToLoad="true" visible="true" itemPress="_onStandardListItemPress"
-				items="{path:'/locationSet', templateShareable:true}">
+			<List id="locationList" width="100%" visible="true" items="{path:'/locationSet', templateShareable:true}" headerText="Header" mode="SingleSelectMaster" itemPress="_onStandardListItemPress" growingScrollToLoad="true" growingThreshold="20" growing="true" showSeparators="All" backgroundDesign="Solid" footerText="">
 				<infoToolbar>
-					<Toolbar width="100%" height="auto" design="Auto" visible="false" enabled="true">
+					<Toolbar width="100%" visible="false" height="auto" design="Auto" enabled="true">
 						<content>
-							<Label text="Label" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+							<Label width="100%" visible="true" text="Label" design="Standard" required="false" textAlign="Begin" textDirection="Inherit" />
 						</content>
 					</Toolbar>
 				</infoToolbar>
 				<headerToolbar>
-					<Toolbar enabled="true" visible="true" width="" design="Solid">
+					<Toolbar width="" visible="true" design="Solid" enabled="true">
 						<content>
 							<SearchField id="searchField" placeholder="Search" showSearchButton="true" visible="true" width="100%"/>
 						</content>
 					</Toolbar>
 				</headerToolbar>
 				<items>
-					<StandardListItem title="{Name}" description="" info="" infoState="None" type="Navigation" selected="false" visible="true"/>
+					<StandardListItem title="{Name}" type="Navigation" visible="true" icon="resources/logos/{Logo}" selected="false" description="" infoState="None" info="" />
 				</items>
 			</List>
 		</content>
 		<footer>
-			<OverflowToolbar width="100%" height="46px" design="Auto" enabled="true" visible="true">
+			<OverflowToolbar width="100%" visible="true" height="46px" design="Auto" enabled="true">
 				<content>
-					<ToolbarSpacer width=""/>
-					<Button text="Save" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false"/>
-					<Button text="Cancel" type="Default" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false"/>
+					<ToolbarSpacer width="" />
+					<Button type="Emphasized" width="auto" visible="true" text="Save" iconFirst="true" enabled="true" iconDensityAware="false" />
+					<Button type="Default" width="auto" visible="true" text="Cancel" iconFirst="true" enabled="true" iconDensityAware="false" />
 				</content>
 			</OverflowToolbar>
 		</footer>
-		<headerContent/>
-		<subHeader/>
-		<customHeader/>
+		<headerContent />
+		<subHeader />
+		<customHeader />
 	</Page>
 </mvc:View>

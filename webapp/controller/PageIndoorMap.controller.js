@@ -4,8 +4,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/json/JSONModel",
 	"../model/models",
-	"./ble"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE) {
+	"./ble",
+	"../model/Ziele"
+], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE, Ziele) {
 	"use strict";
 
 	var lastX = 0;
@@ -84,8 +85,21 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				console.log('ScaleX: ' + 3004 / window.innerWidth + ' ScaleY: ' + 3918 / window.innerHeight);
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 				ctx.scale(window.innerWidth / 3004, window.innerHeight / 3918);
-				//ctx.fillRect(1569, 275, 20, 20);
-				//$("img[name='lageplan-img']").remove();
+				var ziele=Ziele.getZiele();
+				for (var zielname in ziele) {
+					if (ziele.hasOwnProperty(zielname) ) {
+						var zielImage=new Image();
+						zielImage.src="resources/logos/"+zielname+".png";
+						var ziel=ziele[zielname];
+						const cx=ziel.cx;
+						const cy=ziel.cy;
+						const basicsize=100
+						zielImage.onload=function(){
+							const ar=this.width/this.height;
+							ctx.drawImage(this, cx - basicsize*ar, cy - basicsize, basicsize*2*ar, basicsize*2)
+						}
+					}
+				}
 				$("img[name='lageplan-img']").css("display", "none");
 				console.log('Bild ersetzt');
 				// goTo(2315, 600);
