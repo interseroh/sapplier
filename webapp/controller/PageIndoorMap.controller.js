@@ -24,8 +24,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				currentBeacon: ''
 			});
 			this.getView().setModel(model);
-
-			this.lastX = 0;
+            model.attachPropertyChange(this.goTo());
+            
+            this.lastX = 0;
 			this.lastY = 0;
 			this.currentX;
 			this.currentY;
@@ -104,9 +105,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			}
 		},
 
-		goTo: function (toX, toY) {
-			this.currentX = toX;
-			this.currentY = toY;
+		goTo: function () {
+			this.currentX = this.getView().getModel().getProperty("cx");
+			this.currentY = this.getView().getModel().getProperty("cy");;
 			this.x = this.lastX;
 			this.y = this.lastY;
 			this.moveToPosition()
@@ -117,6 +118,6 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				BLE.start(this.getView().getModel());
 			}
 		},
-
+		
 	});
 });

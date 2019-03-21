@@ -180,7 +180,7 @@ sap.ui.define([
 			return (major && minor);
 		});
 		
-		oModel.setProperty("/currentBeacon", `ID: ${beacon.id} MAJOR: ${beacon.major} MINOR: ${beacon.minor}`);
+		oModel.setProperty("/currentBeacon", `ID: ${beacon.id} MAJOR: ${beacon.major} MINOR: ${beacon.minor} CX: ${beacon.cx} CY: ${beacon.cy}`);
 	};
 
 	function displayRecentRegionEvent() {
