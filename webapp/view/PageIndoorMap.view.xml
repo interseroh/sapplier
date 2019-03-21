@@ -6,7 +6,7 @@
 			<FlexBox width="100%" id="box0" justifyContent="Center">
 				<items>
 					<Text text="{/currentBeacon}"></Text>
-					<html:img id="image0" name="lageplan-img" alt="Lageplan des Apphauses" src="resources/appHausKarte.svg"/>
+					<html:img id="image0" name="lageplan-img" alt="Lageplan des Apphauses" src="resources/appHausKarteAktuell.svg"/>
 					<html:canvas name="lageplan-canvas"></html:canvas>
 				</items>
 			</FlexBox>
