@@ -115,13 +115,15 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			});
 			this.getView().setModel(model);
 			this.getView().setModel(Models.createBeaconsModel(), "coordinatesModel");
+			this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
+			// this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
 		},
 
-		_onUrlMatched: function (oEvent) {
-			console.log(oEvent);
-			var sId = oEvent.getParameter("arguments").ID;
-			//console.log(sId)
-		},
+		/*		_onUrlMatched: function (oEvent) {
+					console.log(oEvent);
+					var sId = oEvent.getParameter("arguments").ID;
+					//console.log(sId)
+				},*/
 
 		onAfterRendering: function () {
 			var image = $("img[name='lageplan-img']")[0];
@@ -159,8 +161,17 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				// goTo(2315, 600);
 				//drawLine(792, 2756, 800, 2206);
 				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
-				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
+				/*				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
+								this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);*/
+				var sId = this.getView().getModel().getProperty("id");
+				if (sId) {
+					drawNavigation(sId, this);
+				}
+
+				if (!sap.ui.Device.system.desktop) {
+					BLE.start(this.getView().getModel(), this.goTo.bind(this));
+				}
+
 			}.bind(this);
 
 		},
@@ -191,15 +202,16 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		_onUrlMatched: function (oEvent) {
 			var id = oEvent.getParameter("arguments").navTarget;
-			if (id) {
-				drawNavigation(id, this);
-			}
+			this.getView().getModel().setProperty("/id", id);
+			/*			if (id) {
+							drawNavigation(id, this);
+						}*/
 		},
 
 		_onObjectMatched: function (oEvent) {
-			if (!sap.ui.Device.system.desktop) {
-				BLE.start(this.getView().getModel(), this.goTo.bind(this));
-			}
+			/*			if (!sap.ui.Device.system.desktop) {
+							BLE.start(this.getView().getModel(), this.goTo.bind(this));
+						}*/
 		},
 
 		goTo: function () {

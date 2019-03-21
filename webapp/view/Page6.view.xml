@@ -1,50 +1,53 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.Page6" xmlns:layout="sap.ui.commons.layout"><Page xmlns="sap.m" title="Page Title" showHeader="false" enableScrolling="false" showNavButton="false" showFooter="false">
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.Page6"
+	xmlns:layout="sap.ui.commons.layout" xmlns:core="sap.ui.core">
+	<Page xmlns="sap.m" title="Page Title" showHeader="false" enableScrolling="false" showNavButton="false" showFooter="false">
 		<content>
 			<IconTabHeader id="header1" selectedKey="__filter5" showOverflowSelectList="true">
-			    <items>
-			        <IconTabFilter id="filter5" text=" Beliefrung VEZ" icon="sap-icon://shipping-status" textDirection="LTR" iconColor="Positive" /></items>
+				<items>
+					<IconTabFilter id="filter5" text=" Beliefrung VEZ" icon="sap-icon://shipping-status" textDirection="LTR" iconColor="Positive"/></items>
 			</IconTabHeader>
 			<layout:AbsoluteLayout verticalScrolling="Auto" horizontalScrolling="Hidden">
 				<layout:positions>
 					<layout:PositionContainer top="121px" left="0px">
 						<layout:control>
-							<List items="{path:'/categorySet', templateShareable:true}" width="100%" headerText="Header" visible="true" mode="SingleSelectMaster" itemPress="_onStandardListItemPress" showSeparators="All" growingScrollToLoad="true" growingThreshold="20" growing="true" backgroundDesign="Solid" footerText="">  
+							<List items="{path:'/categorySet', templateShareable:true}" width="100%" headerText="Header" visible="true" mode="SingleSelectMaster"
+								itemPress="_onStandardListItemPress" showSeparators="All" growingScrollToLoad="true" growingThreshold="20" growing="true"
+								backgroundDesign="Solid" footerText="">
 								<infoToolbar>
 									<Toolbar height="auto" enabled="true" width="100%" visible="false" design="Auto">
 										<content>
-											<Label text="Label" width="100%" visible="true" design="Standard" textAlign="Begin" required="false" textDirection="Inherit" />
+											<Label text="Label" width="100%" visible="true" design="Standard" textAlign="Begin" required="false" textDirection="Inherit"/>
 										</content>
 									</Toolbar>
 								</infoToolbar>
 								<headerToolbar>
 									<Toolbar enabled="true" width="" visible="false" design="Solid">
 										<content>
-											<SearchField placeholder="Search" width="100%" visible="true" showSearchButton="true" />
+											<SearchField placeholder="Search" width="100%" visible="true" showSearchButton="true"/>
 										</content>
 									</Toolbar>
 								</headerToolbar>
 								<items>
-									<StandardListItem title="{Name}" type="Navigation" icon="{Icon}" visible="true" selected="false" description="" info="" infoState="None" />
+									<StandardListItem title="{Name}" type="Navigation" icon="{Icon}" visible="true" selected="false" description="" info="" infoState="None"/>
 								</items>
 							</List>
 						</layout:control>
 					</layout:PositionContainer>
-					<layout:PositionContainer top="44px" left="22px">
-					</layout:PositionContainer>
+					<layout:PositionContainer top="44px" left="22px"></layout:PositionContainer>
 				</layout:positions>
 			</layout:AbsoluteLayout>
 		</content>
 		<footer>
 			<OverflowToolbar height="46px" enabled="true" width="100%" visible="true" design="Auto">
 				<content>
-					<ToolbarSpacer width="" />
-					<Button type="Emphasized" text="Save" enabled="true" width="auto" visible="true" iconFirst="true" iconDensityAware="false" />
-					<Button type="Default" text="Cancel" enabled="true" width="auto" visible="true" iconFirst="true" iconDensityAware="false" />
+					<ToolbarSpacer width=""/>
+					<Button type="Emphasized" text="Save" enabled="true" width="auto" visible="true" iconFirst="true" iconDensityAware="false"/>
+					<Button type="Default" text="Cancel" enabled="true" width="auto" visible="true" iconFirst="true" iconDensityAware="false"/>
 				</content>
 			</OverflowToolbar>
 		</footer>
-		<headerContent />
-		<subHeader />
-		<customHeader />
+		<headerContent/>
+		<subHeader/>
+		<customHeader/>
 	</Page>
 </mvc:View>
