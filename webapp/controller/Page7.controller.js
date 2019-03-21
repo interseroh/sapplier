@@ -107,9 +107,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.getView().setModel(Models.createLocationModel());
 			this.oRouter.getRoute("Page7").attachPatternMatched(this._onObjectMatched, this);
+			this.getView().byId("searchField").attachLiveChange(
+				this.onFilterName
+			);
 		},
 
-		onFilterInvoices: function (value) {
+		onFilterCategory: function (value) {
 
 			// build filter array
 			var aFilter = [];
@@ -127,10 +130,25 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			oBinding.filter(aFilter);
 		},
 
+		onFilterName: function (oEvent) {
+
+			// build filter array
+			var aFilter = [];
+			var sQuery = oEvent.getSource().getProperty("value");
+			if (sQuery) {
+				aFilter.push(new Filter("Name", FilterOperator.EQ, sQuery));
+			}
+
+			// filter binding
+			var oList = this.getView().byId("locationList");
+			var oBinding = oList.getBinding("items");
+			oBinding.filter(aFilter);
+		},
+
 		_onObjectMatched: function (oEvent) {
 			var sCategoryName = oEvent.getParameter("arguments").category;
 			this.getView().byId("page7").setTitle(sCategoryName);
-			this.onFilterInvoices(sCategoryName);
+			this.onFilterCategory(sCategoryName);
 		},
 
 	});

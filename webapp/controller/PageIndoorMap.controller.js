@@ -24,7 +24,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				currentBeacon: ''
 			});
 			this.getView().setModel(model);
-            model.attachPropertyChange(this.goTo());
+            model.attachPropertyChange(this.goTo);
             
             this.lastX = 0;
 			this.lastY = 0;
