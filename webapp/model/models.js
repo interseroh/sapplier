@@ -55,38 +55,38 @@ sap.ui.define([
 				locationSet: [{
 					"ID": "1",
 					"Name": "randstad",
-					"Navigation_Points": [],
+					"Navigation_Points": [1, 2, 3, 4],
 					"Kategorie": "Personal",
 					"Logo": "randstad.png"
 				}, {
 					"ID": "2",
 					"Name": "Interseroh",
-					"Navigation_Points": [],
+					"Navigation_Points": [1, 2, 3, 4, 5],
 					"Kategorie": "Umwelt",
 					"Logo": "interseroh.png"
 
 				}, {
 					"ID": "3",
 					"Name": "Telekom",
-					"Navigation_Points": [],
+					"Navigation_Points": [1, 2, 3, 4, 5, 6],
 					"Kategorie": "IT",
 					"Logo": "telekom.png",
 				}, {
 					"ID": "4",
 					"Name": "Open Grid Europe",
-					"Navigation_Points": [],
+					"Navigation_Points": [1, 2, 3, 4, 5, 6, 7, 8],
 					"Kategorie": "Energie",
 					"Logo": "openGrid.png"
 				}, {
 					"ID": "5",
 					"Name": "e-maks",
-					"Navigation_Points": [],
+					"Navigation_Points": [1, 2, 3, 4, 5, 6, 7, 8, 9],
 					"Kategorie": "Dienstleistung",
 					"Logo": "eMaks.png"
 				}, {
 					"ID": "6",
 					"Name": "uniper",
-					"Navigation_Points": [],
+					"Navigation_Points": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 					"Kategorie": "Energie",
 					"Logo": "uniPer.png"
 				}]
@@ -102,92 +102,92 @@ sap.ui.define([
 				beaconsSet: [{
 					"id": "ljNl",
 					"beschreibung": "Eingang",
-					"cx": 129,
-					"cy": 480,
+					"cx": 921,
+					"cy": 3565,
 					"major": 1,
 					"minor": 1
 				}, {
 					"id": "JsOXzO",
 					"beschreibung": "Säule 1",
-					"cx": 106,
-					"cy": 380,
+					"cx": 792,
+					"cy": 2756,
 					"major": 1,
 					"minor": 2
 				}, {
 					"id": "JsGYeY",
 					"beschreibung": "Säule 2",
-					"cx": 106,
-					"cy": 312,
+					"cx": 800,
+					"cy": 2206,
 					"major": 1,
 					"minor": 3
 				}, {
 					"id": "JsyyGG",
 					"beschreibung": "Säule 3",
-					"cx": 106,
-					"cy": 238,
+					"cx": 805,
+					"cy": 1655,
 					"major": 1,
 					"minor": 4
 				}, {
 					"id": "JsVC06",
 					"beschreibung": "Säule 4",
-					"cx": 105,
-					"cy": 136,
+					"cx": 805,
+					"cy": 1106,
 					"major": 1,
 					"minor": 5
 				}, {
 					"id": "Js5GCf",
 					"beschreibung": "Säule 5",
-					"cx": 105,
-					"cy": 89,
+					"cx": 797,
+					"cy": 601,
 					"major": 1,
 					"minor": 6
 				}, {
 					"id": "Zo06",
 					"beschreibung": "Fernseher",
-					"cx": 209,
-					"cy": 45,
+					"cx": 1569,
+					"cy": 275,
 					"major": 1,
 					"minor": 7
 				}, {
 					"id": "5uyf",
 					"beschreibung": "Säule 6",
-					"cx": 322,
-					"cy": 89,
+					"cx": 2315,
+					"cy": 601,
 					"major": 1,
 					"minor": 8
 				}, {
 					"id": "MFxB",
 					"beschreibung": "Säule 7",
-					"cx": 321,
-					"cy": 163,
+					"cx": 2323,
+					"cy": 1106,
 					"major": 1,
 					"minor": 9
 				}, {
 					"id": "OsWO",
 					"beschreibung": "Säule 8",
-					"cx": 311,
-					"cy": 237,
+					"cx": 2323,
+					"cy": 1655,
 					"major": 1,
 					"minor": 10
 				}, {
 					"id": "Jsww2b",
 					"beschreibung": "Säule 9",
-					"cx": 311,
-					"cy": 312,
+					"cx": 2318,
+					"cy": 2206,
 					"major": 1,
 					"minor": 11
 				}, {
 					"id": "JsXcEF",
 					"beschreibung": "Säule 10",
-					"cx": 311,
-					"cy": 380,
+					"cx": 2310,
+					"cy": 2756,
 					"major": 1,
 					"minor": 12
 				}, {
 					"id": "Js3DR1",
 					"beschreibung": "Ausgang",
-					"cx": 311,
-					"cy": 481,
+					"cx": 2281,
+					"cy": 3565,
 					"major": 1,
 					"minor": 13
 				}]
