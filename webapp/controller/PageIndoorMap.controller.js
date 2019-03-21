@@ -30,11 +30,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			image.onload = function () {
 				var canvas = $("canvas[name='lageplan-canvas']")[0];
 				this.globalCanvas = canvas;
-				canvas.height = image.height;
-				canvas.width = image.width;
+				canvas.height = window.innerHeight;
+				canvas.width = window.innerWidth;
 				var ctx = canvas.getContext("2d");
 				this.globalCtx = ctx;
+				console.log('ScaleX: '+ 3004/window.innerWidth+' ScaleY: '+3918/window.innerHeight);
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+				ctx.scale(window.innerWidth/3004, window.innerHeight/3918);
+				ctx.fillRect(1569, 275, 20,20);
 				//$("img[name='lageplan-img']").remove();
 				$("img[name='lageplan-img']").css("display", "none");
 				console.log('Bild ersetzt');
