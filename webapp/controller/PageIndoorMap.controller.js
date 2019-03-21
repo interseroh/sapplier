@@ -18,7 +18,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	var ctx;
 	var globalImage;
 	var canvas;
-
+	var backupCanvas;
+    var heinz;
+    function heinzOn(x, y){
+	    ctx.drawImage(backupCanvas, 0, 0);
+	    ctx.drawImage(heinz, x,y);
+    }
 	function drawPointOnMap(newX, newY) {
 		/*		var ctx = this.getView().getModel().getProperty("/globalCtx");*/
 		// console.log(ctx);
@@ -85,6 +90,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		},
 
 		onAfterRendering: function () {
+			heinz=new Image();
+			heinz.src="resources/lieferant-heinz.png";
+
 			var image = $("img[name='lageplan-img']")[0];
 			globalImage = image;
 			image.onload = function () {
@@ -114,8 +122,16 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 							ctx.drawImage(this, cx - basicsize * ar, cy - basicsize, basicsize * 2 * ar, basicsize * 2)
 						}
 					}
-				}
+				};
 				$("img[name='lageplan-img']").css("display", "none");
+				backupCanvas=document.createElement('canvas');
+				backupCanvas.height=canvas.height;
+				backupCanvas.width=canvas.width;
+				backupCanvas.getContext("2d").scale(3004/window.innerWidth, 3918/window.innerHeight);
+				backupCanvas.getContext("2d").drawImage(canvas, 0, 0);
+				heinzOn(1000, 400);
+				heinzOn(1000, 700);
+				heinzOn(1000, 1100);
 				// console.log('Bild ersetzt');
 				// goTo(2315, 600);
 				//drawLine(792, 2756, 800, 2206);
