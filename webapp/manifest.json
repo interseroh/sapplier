@@ -111,7 +111,7 @@
 				"target": ["Page7"]
 			}, {
 				"name": "PageIndoorMap",
-				"pattern": "PageIndoorMap/:context:",
+				"pattern": "PageIndoorMap/{navTarget}:context:",
 				"titleTarget": "",
 				"greedy": false,
 				"target": ["PageIndoorMap"]

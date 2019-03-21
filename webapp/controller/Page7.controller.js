@@ -28,6 +28,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		doNavigate: function (sRouteName, oBindingContext, fnPromiseResolve, sViaRelation) {
 			var sPath = (oBindingContext) ? oBindingContext.getPath() : null;
 			var oModel = (oBindingContext) ? oBindingContext.getModel() : null;
+			var sNavTarget = oBindingContext.getObject().ID;
 
 			var sEntityNameSet;
 			if (sPath !== null && sPath !== "") {
@@ -47,7 +48,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				if (sNavigationPropertyName === "") {
 					this.oRouter.navTo(sRouteName, {
 						context: sPath,
-						masterContext: sMasterContext
+						masterContext: sMasterContext,
+						navTarget: sNavTarget
 					}, false);
 				} else {
 					oModel.createBindingContext(sNavigationPropertyName, oBindingContext, null, function (bindingContext) {
@@ -72,13 +74,15 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 					}.bind(this));
 				}
 			} else {
-				this.oRouter.navTo(sRouteName);
-			}
+				this.oRouter.navTo(sRouteName, {
+						navTarget: sNavTarget
+				}, false);
 
 			if (typeof fnPromiseResolve === "function") {
 				fnPromiseResolve();
 			}
 
+		}
 		},
 		_onButtonPress: function () {
 			var oHistory = History.getInstance();

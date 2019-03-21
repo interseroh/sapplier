@@ -56,6 +56,27 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		moveToPosition()
 	}
 
+	function drawLine(x1, y1, x2, y2) {
+		ctx.beginPath();
+		ctx.lineWidth = 15;
+		ctx.strokeStyle = "#75b2e5";
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+		ctx.stroke();
+	}
+
+	function drawNavigation(id, that) {
+		if (id == 1) {
+			console.log('Route zeichnen für: ' + 1);
+			var aCoordinates = that.getView().getModel("coordinatesModel").getProperty("/beaconsSet");
+			drawLine(aCoordinates[0].cx, aCoordinates[0].cy, aCoordinates[1].cx, aCoordinates[1].cy); //921
+			drawLine(aCoordinates[1].cx, aCoordinates[1].cy, aCoordinates[2].cx, aCoordinates[2].cy);
+						drawLine(aCoordinates[2].cx, aCoordinates[2].cy, aCoordinates[3].cx, aCoordinates[3].cy);
+			drawLine(aCoordinates[3].cx, aCoordinates[3].cy, aCoordinates[4].cx, aCoordinates[4].cy);
+
+		}
+	}
+
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
 
 		onInit: function () {
@@ -67,6 +88,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 			this.getView().setModel(model);
 			model.attachPropertyChange(goTo);
 			view = this.getView();
+			
+			this.getView().setModel(Models.createBeaconsModel(), "coordinatesModel");
+		},
+
+		_onUrlMatched: function (oEvent) {
+			console.log(oEvent);
+			var sId = oEvent.getParameter("arguments").ID;
+			//console.log(sId)
 		},
 
 		onAfterRendering: function () {
@@ -85,24 +114,28 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 				console.log('ScaleX: ' + 3004 / window.innerWidth + ' ScaleY: ' + 3918 / window.innerHeight);
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 				ctx.scale(window.innerWidth / 3004, window.innerHeight / 3918);
-				var ziele=Ziele.getZiele();
+				var ziele = Ziele.getZiele();
 				for (var zielname in ziele) {
-					if (ziele.hasOwnProperty(zielname) ) {
-						var zielImage=new Image();
-						zielImage.src="resources/logos/"+zielname+".png";
-						var ziel=ziele[zielname];
-						const cx=ziel.cx;
-						const cy=ziel.cy;
-						const basicsize=100
-						zielImage.onload=function(){
-							const ar=this.width/this.height;
-							ctx.drawImage(this, cx - basicsize*ar, cy - basicsize, basicsize*2*ar, basicsize*2)
+					if (ziele.hasOwnProperty(zielname)) {
+						var zielImage = new Image();
+						zielImage.src = "resources/logos/" + zielname + ".png";
+						var ziel = ziele[zielname];
+						const cx = ziel.cx;
+						const cy = ziel.cy;
+						const basicsize = 100
+						zielImage.onload = function () {
+							const ar = this.width / this.height;
+							ctx.drawImage(this, cx - basicsize * ar, cy - basicsize, basicsize * 2 * ar, basicsize * 2)
 						}
 					}
 				}
 				$("img[name='lageplan-img']").css("display", "none");
 				console.log('Bild ersetzt');
 				// goTo(2315, 600);
+				//drawLine(792, 2756, 800, 2206);
+				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
+
 			}.bind(this);
 
 		},
@@ -131,7 +164,15 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		},
 
+		_onUrlMatched: function (oEvent) {
+			var id = oEvent.getParameter("arguments").navTarget;
+			if (id) {
+				drawNavigation(id, this);
+			}
+		},
+
 		_onObjectMatched: function (oEvent) {
+
 			if (1 == 2) { //!sap.ui.Device.system.desktop
 				BLE.start(this.getView().getModel());
 			}
