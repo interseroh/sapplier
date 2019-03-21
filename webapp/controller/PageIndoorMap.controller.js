@@ -9,7 +9,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 ], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE, Ziele) {
 	"use strict";
 
-	var lastX = 2281;
+	var lastX = 921;
 	var lastY = 3690;
 	var currentX;
 	var currentY;
