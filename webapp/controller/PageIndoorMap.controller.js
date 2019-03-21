@@ -20,6 +20,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	var canvas;
 	var backupCanvas;
     var heinz;
+    var gController;
+    var gId;
 
     function drawBasis(){
 				var image = $("img[name='lageplan-img']")[0];
@@ -53,6 +55,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 					}
 				};
 				$("img[name='lageplan-img']").css("display", "none");
+				drawNavigation(gId, gController);
     }
     function heinzOn(x, y){
         drawBasis();
@@ -197,13 +200,20 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 					}
 				};
 				$("img[name='lageplan-img']").css("display", "none");
-
 				// console.log('Bild ersetzt');
 				// goTo(2315, 600);
 				//drawLine(792, 2756, 800, 2206);
 				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
 				this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onObjectMatched, this);
+				gController=this;
+				/*
+                currentX=800;
+                currentY=600;
+                gx=lastX;
+                gy=lastY;
+                moveToPosition();
+                */
 			}.bind(this);
 
 		},
@@ -233,9 +243,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		},
 
 		_onUrlMatched: function (oEvent) {
-			var id = oEvent.getParameter("arguments").navTarget;
-			if (id) {
-				drawNavigation(id, this);
+		    gId = oEvent.getParameter("arguments").navTarget;
+			if (gId) {
+				drawNavigation(gId, this);
 			}
 		},
 
