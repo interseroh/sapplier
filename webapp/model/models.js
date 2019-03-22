@@ -201,7 +201,7 @@ sap.ui.define([
 
 			var oModel = new JSONModel(beacons);
 			return oModel;
-		},
+		}
 
 	};
 

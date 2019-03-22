@@ -1,18 +1,16 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.Page6"
-	xmlns:layout="sap.ui.commons.layout" xmlns:core="sap.ui.core">
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.Page6" xmlns:layout="sap.ui.commons.layout" xmlns:core="sap.ui.core">
 	<Page xmlns="sap.m" title="Page Title" showHeader="false" enableScrolling="false" showNavButton="false" showFooter="false">
 		<content>
 			<IconTabHeader id="header1" selectedKey="__filter5" showOverflowSelectList="true">
 				<items>
-					<IconTabFilter id="filter5" text=" Beliefrung VEZ" icon="sap-icon://shipping-status" textDirection="LTR" iconColor="Positive"/></items>
+					<IconTabFilter id="filter5" text="Lieferung VEZ" icon="sap-icon://shipping-status" textDirection="LTR" iconColor="Positive"/>
+					</items>
 			</IconTabHeader>
 			<layout:AbsoluteLayout verticalScrolling="Auto" horizontalScrolling="Hidden">
 				<layout:positions>
 					<layout:PositionContainer top="121px" left="0px">
 						<layout:control>
-							<List items="{path:'/categorySet', templateShareable:true}" width="100%" headerText="Header" visible="true" mode="SingleSelectMaster"
-								itemPress="_onStandardListItemPress" showSeparators="All" growingScrollToLoad="true" growingThreshold="20" growing="true"
-								backgroundDesign="Solid" footerText="">
+							<List items="{path:'/categorySet', templateShareable:true}" width="100%" headerText="Header" visible="true" mode="SingleSelectMaster" itemPress="_onStandardListItemPress" showSeparators="All" growingScrollToLoad="true" growingThreshold="20" growing="true" backgroundDesign="Solid" footerText="">
 								<infoToolbar>
 									<Toolbar height="auto" enabled="true" width="100%" visible="false" design="Auto">
 										<content>
@@ -33,7 +31,7 @@
 							</List>
 						</layout:control>
 					</layout:PositionContainer>
-					<layout:PositionContainer top="44px" left="22px"></layout:PositionContainer>
+					<layout:PositionContainer top="44px" left="22px"/>
 				</layout:positions>
 			</layout:AbsoluteLayout>
 		</content>
