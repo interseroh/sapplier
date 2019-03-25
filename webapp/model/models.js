@@ -3,8 +3,17 @@ sap.ui.define([
 	"sap/ui/Device"
 ], function (JSONModel, Device) {
 	"use strict";
+	 var currentBeaconModel = new JSONModel({
+				currentBeacon: ""
+			});
 
 	return {
+		currentZiel: -1,
+
+
+		createCurrentBeaconModel: function () {
+			return currentBeaconModel;
+		},
 		createDeviceModel: function () {
 			var oModel = new JSONModel(Device);
 			oModel.setDefaultBindingMode("OneWay");
@@ -60,16 +69,20 @@ sap.ui.define([
 			var location = {
 				locationSet: [{
 					"ID": "1",
-					"Name": "randstad",
+					"Name": "Randstad",
 					"Navigation_Points": [1, 2, 3, 4],
 					"Kategorie": "Personal",
-					"Logo": "randstad.png"
+					"Logo": "randstad.png",
+					"cx": 500,
+					"cy": 1400
 				}, {
 					"ID": "2",
 					"Name": "Interseroh",
 					"Navigation_Points": [1, 2, 3, 4, 5],
 					"Kategorie": "Umwelt",
-					"Logo": "interseroh.png"
+					"Logo": "interseroh.png",
+					"cx": 500,
+					"cy": 900
 
 				}, {
 					"ID": "3",
@@ -77,24 +90,32 @@ sap.ui.define([
 					"Navigation_Points": [1, 2, 3, 4, 5, 6],
 					"Kategorie": "IT",
 					"Logo": "telekom.png",
+					"cx": 500,
+					"cy": 300
 				}, {
 					"ID": "4",
 					"Name": "Open Grid Europe",
 					"Navigation_Points": [1, 2, 3, 4, 5, 6, 7, 8],
 					"Kategorie": "Energie",
-					"Logo": "openGrid.png"
+					"Logo": "openGrid.png",
+					"cx": 2500,
+					"cy": 400
 				}, {
 					"ID": "5",
 					"Name": "e-maks",
 					"Navigation_Points": [1, 2, 3, 4, 5, 6, 7, 8, 9],
 					"Kategorie": "Dienstleistung",
-					"Logo": "eMaks.png"
+					"Logo": "eMaks.png",
+					"cx": 2500,
+					"cy": 900
 				}, {
 					"ID": "6",
 					"Name": "uniper",
 					"Navigation_Points": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 					"Kategorie": "Energie",
-					"Logo": "uniPer.png"
+					"Logo": "uniPer.png",
+					"cx": 2500,
+					"cy": 1400
 				}]
 			};
 

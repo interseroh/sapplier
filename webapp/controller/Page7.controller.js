@@ -7,7 +7,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 	"./ble",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator"
-], function (BaseController, MessageBox, Utilities, History, JSONModel, Models, BLE, Filter, FilterOperator) {
+], function (BaseController, MessageBox, Utilities, History, JSONModel,  Models, BLE, Filter, FilterOperator) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.Page7", {
@@ -26,6 +26,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 
 		},
 		doNavigate: function (sRouteName, oBindingContext, fnPromiseResolve, sViaRelation) {
+			Models.currentZiel=oBindingContext.getObject().ID;
 			var sPath = (oBindingContext) ? oBindingContext.getPath() : null;
 			var oModel = (oBindingContext) ? oBindingContext.getModel() : null;
 			var sNavTarget = oBindingContext.getObject().ID;
@@ -110,10 +111,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.getView().setModel(Models.createLocationModel());
+
 			this.oRouter.getRoute("Page7").attachPatternMatched(this._onObjectMatched, this);
-/*			this.getView().byId("searchField").attachLiveChange(
-				this.onFilterName
-			);*/
+
 		},
 
 		onFilterCategory: function (value) {
