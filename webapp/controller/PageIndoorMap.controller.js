@@ -66,11 +66,16 @@ sap.ui.define([
 	};
 
 	function moveToPosition() {
-		gx = gx + (currentX - lastX) / 10;
-		gy = gy + (currentY - lastY) / 10;
+		gx = gx + (currentX - lastX) / 50;
+		gy = gy + (currentY - lastY) / 50;
 		drawPointOnMap(gx, gy);
 		if ((gx - currentX) * (currentX - lastX) < 0 || (gy - currentY) * (currentY - lastY) < 0) {
-			setTimeout(moveToPosition, 50);
+			var acceleration=1.0;
+			if (currentX!=lastX){
+				var rest=8*Math.abs((currentX-gx)/(currentX-lastX));
+				acceleration=1/(1+(rest-4)*(rest-4));
+			}
+			setTimeout(moveToPosition, 10/acceleration);
 		} else {
 			lastX = currentX;
 			lastY = currentY;
@@ -132,19 +137,17 @@ sap.ui.define([
 		var aCoordinates = Models.createBeaconsModel().getData().beaconsSet;
 		if (end < 6) {
 			for (let i = 0; i <= end; i++) {
-				console.log(i);
 				drawLine(aCoordinates[i].cx, aCoordinates[i].cy, aCoordinates[i + 1].cx, aCoordinates[i + 1].cy);
 			}
 		} else {
 			drawLine(aCoordinates[0].cx, aCoordinates[0].cy, aCoordinates[11].cx, aCoordinates[11].cy);
 			for (let i = 11; i >= end; i--) {
-				console.log(i);
 				drawLine(aCoordinates[i].cx, aCoordinates[i].cy, aCoordinates[i - 1].cx, aCoordinates[i - 1].cy);
 			}
 		}
 	}
 	return BaseController.extend("com.sap.build.standard.supplierNavigator.controller.PageIndoorMap", {
-		onInit: function () {
+		onAfterRendering: function () {
 			heinz = new Image();
 			heinz.src = "resources/lieferant-heinz.png";
 			globalImage = new Image();
@@ -160,20 +163,14 @@ sap.ui.define([
 						setInterval(function(){
 							var numOfBeacons=Models.createBeaconsModel().getData().beaconsSet.length;
 							Models.createCurrentBeaconModel().setProperty("/currentBeacon", _einBeacon(Math.trunc(Math.random()*numOfBeacons)));
-						}, 2000);
+						}, 10000);
 					});
 				};
-				heinzOn(800, 600);
 				drawNavigation();
-				/*				
-                currentX=800;
-                currentY=600;
-                gx=lastX;
-                gy=lastY;
-                moveToPosition();
- */
+
 			};
 
+            // Bind a handler for the case the value of currentBean was changed
             var model=Models.createCurrentBeaconModel();
             var binding = new sap.ui.model.PropertyBinding(model, "/", model.getContext("/"));
             binding.attachChange(function(){
@@ -187,27 +184,17 @@ sap.ui.define([
 
 			this.oRouter.getRoute("PageIndoorMap").attachPatternMatched(this._onUrlMatched, this);
 		},
-		_onButtonPress: function () {
+		_onBackNavButtonPress: function () {
 			var oHistory = History.getInstance();
 			var sPreviousHash = oHistory.getPreviousHash();
-			var oQueryParams = this.getQueryParameters(window.location);
 			BLE.stop();
-			if (sPreviousHash !== undefined || oQueryParams.navBackToLaunchpad) {
+			if (sPreviousHash !== undefined || jQuery.sap.getUriParameters().get("navBackToLaunchpad")) {
 				window.history.go(-1);
 			} else {
-				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-				oRouter.navTo("Page6", true);
+				this.oRouter.navTo("Page6", true);
 			}
 		},
-		getQueryParameters: function (oLocation) {
-			var oQuery = {};
-			var aParams = oLocation.search.substring(1).split("&");
-			for (var i = 0; i < aParams.length; i++) {
-				var aPair = aParams[i].split("=");
-				oQuery[aPair[0]] = decodeURIComponent(aPair[1]);
-			}
-			return oQuery;
-		},
+
 		_onUrlMatched: function (oEvent) {
 			drawBasis();
 		},

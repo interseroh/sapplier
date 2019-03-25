@@ -1,5 +1,5 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.standard.supplierNavigator.controller.PageIndoorMap" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:layout="sap.ui.commons.layout" xmlns:cs="sap.suite.ui.commons.statusindicator">
-	<Page xmlns="sap.m" title="Lageplan Potsdamer Platz unterirdisch" id="pageIndoorMap" showHeader="true" showFooter="false" showNavButton="true" navButtonPress="_onButtonPress" enableScrolling="true">
+	<Page xmlns="sap.m" title="Lageplan Potsdamer Platz unterirdisch" id="pageIndoorMap" showHeader="true" showFooter="false" showNavButton="true" navButtonPress="_onBackNavButtonPress" enableScrolling="true">
 					<!--<Text id="beacon" text="{/currentBeacon}" ></Text>-->
 					<html:canvas id="lageplan-canvas" style="width:100%;height:100%" name="lageplan-canvas"></html:canvas>
 	<content />
